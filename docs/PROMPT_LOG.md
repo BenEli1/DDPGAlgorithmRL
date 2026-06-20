@@ -80,7 +80,7 @@ Review all eight generated documents as a strict grader for Exercise 05, DDPG co
 - The plan mentioned tests but did not consistently order work as red-green-refactor.
 - The README needed a compact compliance index and the planned checkpoint directory.
 - Submission evidence needed explicit checks for an absent `requirements.txt`, committed `uv.lock`, and CLI-to-SDK delegation.
-- The workspace is not currently a Git repository, so professional version-history compliance remains a visible scaffold task.
+- The workspace was not yet a Git repository during that review, so professional version-history compliance was recorded as a scaffold task.
 - The original two-episode smoke command conflicted with the 1,000-transition default warm-up and could not perform the update its acceptance criterion required.
 - Two quotation marks in this log were corrupted by terminal encoding, and the temporary-file note was stale.
 
@@ -101,6 +101,27 @@ Review all eight generated documents as a strict grader for Exercise 05, DDPG co
 
 Documentation-only search audit; no implementation code or result artifact was created.
 
+## Entry 003 - Submission-ready documentation refresh
+
+**Date:** 2026-06-20
+
+**Phase:** Documentation-only finalization before scaffold
+
+### Prompt summary
+
+Keep the project in documentation-only mode, ensure all eight required files are submission-ready, preserve pending labels for code and results, use measurable acceptance criteria, include exact DDPG and simulator requirements, list remaining risks, review against all four course PDFs, and publish progress to GitHub.
+
+### Improvements
+
+- Standardized the assignment-facing hyperparameter keys as `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, and `replay_buffer_size` across README, PRD, DDPG PRD, TODO, plan, and report.
+- Updated stale repository-status wording after verifying that the workspace tracks `origin/main`.
+- Added a concise documentation-phase risk register to the summary report.
+- Preserved all implementation locations, results, tests, and training claims as planned, pending, TBD, or not generated.
+
+### Verification
+
+Strict cross-document keyword, acceptance-criterion, pending-claim, and repository-content audit. No implementation code or result artifact was created.
+
 ## Template for future entries
 
 ```text
@@ -117,3 +138,32 @@ Open risks or follow-up:
 ```
 
 Future entries should record prompts that materially affect architecture, algorithms, reward design, public interfaces, dependencies, experiments, or final conclusions. Routine formatting and typo corrections do not need separate entries.
+
+## Entry 004 - Scaffold and custom simulator milestone
+
+**Date:** 2026-06-20
+
+**Phase:** Scaffold and simulator implementation only
+
+### Prompt summary
+
+Create uv packaging, versioned configuration, package structure, a native sample map, custom simulator modules, shared utilities, a random-policy CLI trajectory demo, and focused tests. Do not implement DDPG neural networks.
+
+### Implemented scope
+
+- Added `pyproject.toml`, `uv.lock`, `.gitignore`, `.env-example`, runtime/dev dependencies, and CLI entry point.
+- Added continuous pose/kinematics, action clipping, swept collision, ray sensors, coverage, decomposed rewards, reset/step contracts, and native JSON map loading.
+- Added the SDK facade and headless Matplotlib trajectory output.
+- Added tests for loading, reset, clipping, movement, collision, rewards, and trajectory file creation.
+- Kept `ddpg/` and `training/` free of algorithm and training logic.
+
+### Verification
+
+- `uv run pytest`: 10 passed.
+- Coverage audit: 86.14%, with the thin CLI wrapper excluded as documented.
+- `uv run ruff check .`: zero violations.
+- Random-policy CLI: completed and created `results/trajectories/random_policy.png`.
+
+### Pending
+
+Actor, critic, targets, replay, Gaussian exploration, soft updates, DDPG training/evaluation, learning curve, critic-loss graph, trained-policy trajectory, and metrics remain unimplemented.

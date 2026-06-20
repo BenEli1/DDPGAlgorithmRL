@@ -1,8 +1,8 @@
 # DDPG Robotic Vacuum Simulator
 
-A small, inspectable Python project for Bar-Ilan University Vibe Coding Workshop Exercise 05. The project will train a robotic vacuum cleaner in a custom 2D indoor simulator using Deep Deterministic Policy Gradient (DDPG) implemented from scratch with PyTorch.
+A small, inspectable Python project for Bar-Ilan University Vibe Coding Workshop Exercise 05. The current milestone provides a custom 2D robotic-vacuum simulator; a from-scratch PyTorch DDPG agent is the next planned milestone.
 
-> Documentation-first status: the requirements and architecture are drafted and reviewed. Simulator, DDPG code, tests, and generated results are intentionally not implemented yet.
+> Milestone status: project scaffold, simulator, random-policy CLI demo, trajectory plotting, and simulator tests are implemented. DDPG networks, replay, exploration, training, learning curves, critic-loss graphs, checkpoints, and trained-policy results remain pending.
 
 ## Safe assignment scope
 
@@ -15,9 +15,9 @@ The first release will demonstrate the complete DDPG learning pipeline without t
 - A map-loader interface designed for later HouseExpo adaptation, plus one small project-native sample map. Full HouseExpo compatibility is not claimed for the first release.
 - Normalized ray distance sensors, robot motion and heading, collision contact, and cleaning coverage in the state vector.
 - Reward for newly cleaned cells and completion; penalties for collisions, time, and excessive actuation.
-- DDPG actor, critic, target networks, replay buffer, Gaussian exploration noise, and soft target updates implemented directly in PyTorch.
-- Matplotlib outputs for episode reward, critic loss, and a continuous robot trajectory.
-- Deterministic smoke tests and a short training mode suitable for automated checking.
+- A future DDPG actor, critic, target networks, replay buffer, Gaussian exploration noise, and soft target updates implemented directly in PyTorch.
+- A working Matplotlib trajectory output now; reward and critic-loss plots after DDPG training exists.
+- Deterministic simulator tests and a random-policy CLI demo suitable for automated checking.
 
 ## Source priority
 
@@ -30,7 +30,7 @@ Requirements are interpreted in this order:
 
 If this README conflicts with a higher-priority source, the source wins and the documentation must be corrected before implementation.
 
-## Planned repository structure
+## Current and planned repository structure
 
 ```text
 .
@@ -46,7 +46,7 @@ If this README conflicts with a higher-priority source, the source wins and the 
 |   `-- smoke_training.json
 |-- data/
 |   `-- sample_maps/
-|       `-- simple_room.json
+|       `-- simple_house.json
 |-- docs/
 |   |-- PRD.md
 |   |-- PLAN.md
@@ -102,11 +102,11 @@ If this README conflicts with a higher-priority source, the source wins and the 
     `-- integration/
 ```
 
-`assets/`, `config/`, `data/`, `results/`, `src/`, and `tests/` are planned for the scaffold phase and are not created during the documentation-only phase.
+The scaffold, simulator, SDK, shared utilities, sample map, visualization, and tests now exist. Files shown under `ddpg/` and most files under `training/` remain future work; their package directories contain no DDPG or training logic yet.
 
 ## Architecture
 
-The CLI delegates every use case to a single SDK facade. The SDK coordinates the simulator, DDPG agent, trainer, and visualization modules. Domain modules do not import the CLI, and the DDPG module does not depend on simulator internals.
+The CLI delegates the implemented random-policy use case to a single SDK facade. The SDK coordinates the simulator and trajectory visualization. Future DDPG and trainer modules will join through the documented state/action contract; no DDPG logic exists in the current milestone.
 
 ```text
 CLI
@@ -121,22 +121,22 @@ VacuumSDK  ---> training orchestration ---> metrics and plots
 
 See [docs/PRD.md](docs/PRD.md), [docs/PRD_simulator.md](docs/PRD_simulator.md), and [docs/PRD_ddpg_algorithm.md](docs/PRD_ddpg_algorithm.md) for the formal contracts.
 
-## Planned installation and commands
+## Installation and current commands
 
-Python 3.11 or newer and `uv` will be required. These commands become valid after the scaffold and implementation phases:
+Python 3.11 or newer and `uv` are required:
 
 ```bash
 uv sync --extra dev
-uv run robot-vacuum train --config config/default_training.json
-uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt
-uv run robot-vacuum plot --metrics results/metrics/training_metrics.json
+uv run robot-vacuum --max-steps 100 --seed 42
 uv run pytest
 uv run ruff check .
 ```
 
-A fast checker-friendly run will be available:
+The CLI runs one continuous random-policy episode and writes `results/trajectories/random_policy.png`. The following commands remain planned and intentionally unavailable until DDPG is implemented:
 
 ```bash
+uv run robot-vacuum train --config config/default_training.json
+uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt
 uv run robot-vacuum train --config config/smoke_training.json
 ```
 
@@ -144,12 +144,13 @@ The smoke configuration will use two episodes, 20 steps per episode, batch size 
 
 ## Planned result artifacts
 
-| Artifact | Path |
-|---|---|
-| Cumulative reward curve | `results/plots/learning_curve.png` |
-| Critic loss curve | `results/plots/critic_loss.png` |
-| Evaluation trajectory | `results/trajectories/evaluation_trajectory.png` |
-| Machine-readable metrics | `results/metrics/training_metrics.json` |
+| Artifact | Path | Status |
+|---|---|---|
+| Random-policy trajectory | `results/trajectories/random_policy.png` | Generated by current CLI; ignored by Git |
+| Cumulative reward curve | `results/plots/learning_curve.png` | Pending DDPG training |
+| Critic loss curve | `results/plots/critic_loss.png` | Pending DDPG training |
+| Evaluation trajectory | `results/trajectories/evaluation_trajectory.png` | Pending trained-policy evaluation |
+| Machine-readable metrics | `results/metrics/training_metrics.json` | Pending DDPG training |
 
 No generated result is claimed until the files exist and the final audit records the command used to create them.
 
@@ -168,15 +169,27 @@ No generated result is claimed until the files exist and the final audit records
 | HouseExpo intent | Loader abstraction and honest release-1 sample-map limitation |
 | Professional submission | uv lockfile, SDK facade, configs, type hints, docstrings, pytest, Ruff, and prompt log |
 
+The canonical DDPG configuration names are reserved in `config/default_training.json`; their use by an agent remains pending.
+
+| Configuration key | Planned default |
+|---|---:|
+| `actor_lr` | `0.0001` |
+| `critic_lr` | `0.001` |
+| `gamma` | `0.99` |
+| `tau` | `0.005` |
+| `noise_sigma` | `0.20` |
+| `batch_size` | `64` |
+| `replay_buffer_size` | `100000` |
+
 ## Quality gates
 
-- `uv.lock` is committed and `pyproject.toml` is the dependency source of truth.
+- `uv.lock` exists and must be committed with this milestone; `pyproject.toml` is the dependency source of truth.
 - No `requirements.txt` is used as a second dependency source.
 - `uv run pytest` passes with at least 85% coverage for `src/` where practical for this exercise.
 - `uv run ruff check .` reports zero violations.
-- Actor outputs and environment actions remain within `[-1, 1]`.
+- Environment actions are clipped to `[-1, 1]`; future actor outputs must meet the same bound.
 - The simulator is project-owned and imports no forbidden environment framework.
-- A seeded smoke training run completes and writes metrics and all three required plots.
+- A seeded random-policy run creates a trajectory; DDPG smoke training and its required plots remain pending.
 - The summary report links exact code locations and records actual hyperparameters and limitations.
 
 ## Documentation

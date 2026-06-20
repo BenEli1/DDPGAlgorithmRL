@@ -22,34 +22,35 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 
 ## Scaffold
 
-- [ ] Initialize Git if the workspace remains uninitialized; preserve any existing history if repository context changes.
-- [ ] Create `pyproject.toml` with Python and dependency metadata.
-- [ ] Configure Ruff, pytest, and coverage.
-- [ ] Create and commit `uv.lock`.
-- [ ] Add `.gitignore` and `.env-example`.
-- [ ] Create package, test, config, data, assets, and results directories.
-- [ ] Add version `1.00` and configuration schema versions.
-- [ ] Add `config/smoke_training.json` with two episodes, 20 steps, batch size 16, warm-up 16, and seed 42.
-- [ ] Add CLI entry point and SDK facade skeleton.
-- [ ] Verify package import and CLI help through `uv run`.
+- [x] Confirm the workspace is an initialized Git repository tracking `origin/main`.
+- [x] Create `pyproject.toml` with Python and dependency metadata.
+- [x] Configure Ruff, pytest, and coverage.
+- [x] Create `uv.lock`.
+- [ ] Commit `uv.lock` with the scaffold milestone.
+- [x] Add `.gitignore` and `.env-example`.
+- [x] Create package, test, config, data, assets, and results directories.
+- [x] Add package version `1.0.0` and configuration schema version `1.00`.
+- [x] Add `config/smoke_training.json` with two episodes, 20 steps, batch size 16, warm-up 16, and seed 42.
+- [x] Add CLI entry point and SDK facade for the random-policy simulator demo.
+- [x] Verify package import and CLI execution through `uv run`.
 
 ## Simulator
 
-- [ ] Define map and geometry models.
-- [ ] Add `MapLoader` protocol and native JSON loader.
-- [ ] Add and validate `data/sample_maps/simple_room.json`.
-- [ ] Implement circle/segment and circle/rectangle collision checks.
-- [ ] Reject the full proposed pose on collision and verify pose remains unchanged.
-- [ ] Test swept-path collision so a fast step cannot tunnel through an obstacle.
-- [ ] Implement ray distance intersections.
-- [ ] Implement robot pose and continuous kinematics.
-- [ ] Clip normalized actions to `[-1, 1]`.
-- [ ] Implement seven normalized distance sensors.
-- [ ] Implement the documented 13-value default state.
-- [ ] Implement free-space coverage grid and cleaning disk.
-- [ ] Implement decomposed reward terms.
-- [ ] Implement reset, step, done, and info contracts.
-- [ ] Document the exact HouseExpo extension boundary.
+- [x] Define map and geometry models.
+- [x] Add `MapLoader` protocol and native JSON loader.
+- [x] Add and validate `data/sample_maps/simple_house.json`.
+- [x] Implement circle/segment and circle/rectangle collision checks.
+- [x] Reject the full proposed pose on collision and verify pose remains unchanged.
+- [x] Test swept-path collision so a fast step cannot tunnel through an obstacle.
+- [x] Implement ray distance intersections.
+- [x] Implement robot pose and continuous kinematics.
+- [x] Clip normalized actions to `[-1, 1]`.
+- [x] Implement seven normalized distance sensors.
+- [x] Implement the documented 13-value default state.
+- [x] Implement free-space coverage grid and cleaning disk.
+- [x] Implement decomposed reward terms.
+- [x] Implement reset, step, done, and info contracts.
+- [x] Document the exact HouseExpo extension boundary.
 
 ## DDPG
 
@@ -63,20 +64,22 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 - [ ] Implement actor `-Q` update.
 - [ ] Implement and call soft target update with `tau`.
 - [ ] Implement CPU checkpoint save/load.
-- [ ] Keep hyperparameters in versioned configuration.
+- [x] Reserve future hyperparameters in versioned configuration without implementing DDPG logic.
+- [x] Use the exact configuration names `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, and `replay_buffer_size`.
 
 ## Training, SDK, and CLI
 
-- [ ] Implement deterministic seed utility.
+- [x] Implement deterministic seed utility for the simulator and random-policy demo.
 - [ ] Implement metrics collector and JSON schema.
 - [ ] Implement warm-up and episode training loop.
 - [ ] Implement noise-free evaluation rollout.
 - [ ] Expose training, evaluation, and plotting only through `VacuumSDK`.
 - [ ] Add `train`, `evaluate`, and `plot` CLI commands.
-- [ ] Add clear validation and missing-file errors.
+- [x] Add clear simulator configuration, action, map, and missing-file errors.
 
 ## Visualization and results
 
+- [x] Generate and test `results/trajectories/random_policy.png` from the simulator CLI.
 - [ ] Generate `results/plots/learning_curve.png`.
 - [ ] Generate `results/plots/critic_loss.png`.
 - [ ] Generate `results/trajectories/evaluation_trajectory.png`.
@@ -89,10 +92,10 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 ## Tests
 
 - [ ] Test reset/step and repeatable seed behavior.
-- [ ] Test environment action clipping.
-- [ ] Test reward for new versus revisited cells.
-- [ ] Test boundary and obstacle collisions.
-- [ ] Test valid and invalid map loading.
+- [x] Test environment action clipping.
+- [x] Test reward for new versus revisited cells.
+- [x] Test boundary and obstacle collisions.
+- [x] Test valid and invalid map loading.
 - [ ] Test sensor and state ranges.
 - [ ] Test replay capacity and sample shapes.
 - [ ] Test actor range and output shape.
@@ -109,9 +112,9 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 - [ ] Replace planned hyperparameters with the resolved run values.
 - [ ] Add actual result paths and observations.
 - [ ] Answer all three conceptual DDPG questions.
-- [ ] Run `uv sync --extra dev` from the locked environment.
-- [ ] Run `uv run pytest` successfully.
-- [ ] Run `uv run ruff check .` successfully.
+- [x] Run `uv sync --extra dev` from the locked environment.
+- [x] Run `uv run pytest` successfully for the scaffold/simulator milestone.
+- [x] Run `uv run ruff check .` successfully for the scaffold/simulator milestone.
 - [ ] Confirm no forbidden environment framework appears in dependencies/imports.
 - [ ] Confirm `requirements.txt` is absent and `uv.lock` is committed.
 - [ ] Confirm meaningful Git history exists for the submitted repository.

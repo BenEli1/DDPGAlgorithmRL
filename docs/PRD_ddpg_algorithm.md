@@ -168,21 +168,23 @@ The trainer decides when updates occur; the agent owns the mathematical update.
 
 ## 11. Baseline hyperparameters
 
-| Parameter | Default | Configuration key |
+| Parameter | Default | Canonical configuration key |
 |---|---:|---|
-| Actor hidden layers | `[256, 256]` | `agent.actor_hidden_sizes` |
-| Critic hidden layers | `[256, 256]` | `agent.critic_hidden_sizes` |
-| Actor learning rate | `0.0001` | `agent.actor_learning_rate` |
-| Critic learning rate | `0.001` | `agent.critic_learning_rate` |
-| Discount factor | `0.99` | `agent.gamma` |
-| Soft update coefficient | `0.005` | `agent.tau` |
-| Gaussian sigma | `0.20` | `agent.exploration_sigma` |
-| Replay capacity | `100000` | `agent.replay_capacity` |
-| Batch size | `64` | `agent.batch_size` |
-| Warm-up transitions | `1000` | `training.warmup_transitions` |
-| Updates per environment step | `1` | `training.updates_per_step` |
+| Actor hidden layers | `[256, 256]` | `actor_hidden_sizes` |
+| Critic hidden layers | `[256, 256]` | `critic_hidden_sizes` |
+| Actor learning rate | `0.0001` | `actor_lr` |
+| Critic learning rate | `0.001` | `critic_lr` |
+| Discount factor | `0.99` | `gamma` |
+| Soft update coefficient | `0.005` | `tau` |
+| Gaussian exploration standard deviation | `0.20` | `noise_sigma` |
+| Replay-buffer capacity | `100000` | `replay_buffer_size` |
+| Batch size | `64` | `batch_size` |
+| Warm-up transitions | `1000` | `warmup_transitions` |
+| Updates per environment step | `1` | `updates_per_step` |
 
 Configuration validation shall require positive learning rates, capacity at least batch size, `0 <= gamma <= 1`, `0 < tau <= 1`, and nonnegative sigma.
+
+The seven assignment-facing names `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, and `replay_buffer_size` are stable public configuration keys and must appear unchanged in saved metrics and the final report.
 
 The separate smoke configuration overrides batch size and warm-up to `16` while preserving the DDPG equations. Default training values must never be silently mutated to make a test pass.
 

@@ -9,7 +9,7 @@
 - Update `TODO.md`, `PROMPT_LOG.md`, and `SUMMARY_REPORT.md` as evidence is produced.
 - For each public behavior, follow a red-green-refactor loop: add the smallest failing test, implement only enough to pass, then improve structure with the suite green.
 
-## Phase 0 - Documentation (current phase)
+## Phase 0 - Documentation (complete)
 
 ### Deliverables
 
@@ -34,11 +34,11 @@ The first draft is reviewed against the assignment for:
 
 All eight required Markdown files exist, contain no unqualified implementation claims, and jointly cover AC-1 through AC-16.
 
-## Phase 1 - Project scaffold
+## Phase 1 - Project scaffold (complete locally; commit pending)
 
 ### Work
 
-1. Initialize Git if the submission folder is still not a repository, without rewriting existing user history.
+1. Confirm the initialized Git repository, `origin` remote, active branch, and intended documentation-only change scope.
 2. Add `pyproject.toml` with runtime and dev dependency groups, CLI entry point, Ruff, pytest, and coverage configuration.
 3. Generate and commit `uv.lock` through `uv lock` or `uv sync`.
 4. Add `.gitignore`, `.env-example`, package folders, and `__init__.py` files.
@@ -58,7 +58,7 @@ uv run ruff check .
 
 The package imports, configuration loads, CLI help runs, and no domain placeholder falsely reports success.
 
-## Phase 2 - Custom simulator
+## Phase 2 - Custom simulator (complete)
 
 ### Work order
 
@@ -75,7 +75,7 @@ The package imports, configuration loads, CLI help runs, and no domain placehold
 
 Simulator unit and integration tests pass without importing PyTorch or any forbidden environment library. A scripted action sequence yields finite observations, collision evidence, and increasing coverage.
 
-## Phase 3 - DDPG core
+## Phase 3 - DDPG core (next; not started)
 
 ### Work order
 
@@ -154,6 +154,7 @@ Ruff has zero violations, tests pass, coverage meets the configured gate, and no
 1. Replace every `TBD after implementation` marker in `SUMMARY_REPORT.md` with verified evidence or an explicit limitation.
 2. Add exact relative paths and line numbers for assignment-critical DDPG mechanisms.
 3. Record actual hyperparameters, run command, seed, duration, and result paths.
+   The report must use the canonical names `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, and `replay_buffer_size`.
 4. Answer why DDPG fits, what removing Gaussian noise does, and how soft updates stabilize training.
 5. Re-run README commands from a clean `uv sync` environment.
 6. Search dependencies and imports for forbidden frameworks.

@@ -4,6 +4,8 @@
 
 Define the small custom simulator in which DDPG learns vacuum navigation. The simulator owns deterministic geometry, robot motion, sensing, cleaning coverage, reward, episode state, and map validation. It is not a Gym-compatible wrapper and has no dependency on PyTorch.
 
+Implementation status: this simulator contract is now implemented under `src/robot_vacuum_ddpg/simulator/` and verified by simulator-focused tests. DDPG and training remain outside this layer and are not implemented.
+
 ## 2. Release 1 map scope
 
 Release 1 supports a project-native JSON schema with:
@@ -203,7 +205,13 @@ Rendering is excluded from simulator modules and lives in `visualization/`.
 - Malformed maps fail with field-specific messages.
 - Simulator package imports neither PyTorch nor forbidden environment frameworks.
 
-## 13. HouseExpo extension plan
+## 13. Trajectory evidence contract
+
+The environment shall record the committed pose after reset and after every step as an ordered sequence of `(x, y, theta)` values. Rejected collision proposals are not inserted as physical positions; the unchanged committed pose may be repeated so the plotted time sequence remains aligned with steps. Evaluation shall pass this trajectory and the loaded `FloorMap` to the visualization layer.
+
+The simulator does not render figures. `visualization/trajectory.py` shall use the recorded sequence to draw map boundaries, obstacles, a continuous path line, and distinct start/final markers under `results/trajectories/`. This separation keeps geometry and episode state independent from Matplotlib.
+
+## 14. HouseExpo extension plan
 
 A future adapter may:
 

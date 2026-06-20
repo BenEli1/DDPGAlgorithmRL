@@ -19,6 +19,10 @@ Primary users are the course lecturer and AI checker. A secondary user is a stud
 
 The current PRD was drafted from all four local sources. The exercise explicitly takes precedence.
 
+### Current implementation milestone
+
+The project scaffold and custom simulator requirements FR-1 through FR-4 are implemented, together with the simulator portion of FR-8 and FR-9. The CLI currently runs a random policy only and saves a trajectory plot. FR-5 and FR-6, trained-policy evaluation, reward/critic-loss graphs, checkpoints, and training metrics are still planned. No DDPG implementation or training result is claimed.
+
 ## 4. Goals
 
 - Demonstrate a correct, from-scratch PyTorch DDPG implementation.
@@ -142,19 +146,20 @@ The JSON document shall include schema version, seed, resolved configuration, ep
 
 These are design defaults, not claimed optimized values:
 
-| Parameter | Planned default | Rationale |
+| Configuration key | Planned default | Rationale |
 |---|---:|---|
-| Actor learning rate | `1e-4` | Conservative deterministic-policy updates |
-| Critic learning rate | `1e-3` | Faster value fitting than policy movement |
-| Discount `gamma` | `0.99` | Values long-horizon cleaning |
-| Soft update `tau` | `0.005` | Slowly moving target networks |
-| Gaussian sigma | `0.20` | Material early exploration in normalized action space |
-| Replay capacity | `100000` | Diverse history without excessive memory |
-| Batch size | `64` | Stable, checker-friendly update size |
-| Hidden layers | `[256, 256]` | Standard compact MLP baseline |
-| Warm-up transitions | `1000` | Avoid updates on a tiny correlated sample |
-| Episodes | `200` | Modest local training budget |
-| Max steps/episode | `500` | Bounded runtime and meaningful coverage horizon |
+| `actor_lr` | `1e-4` | Conservative deterministic-policy updates |
+| `critic_lr` | `1e-3` | Faster value fitting than policy movement |
+| `gamma` | `0.99` | Values long-horizon cleaning |
+| `tau` | `0.005` | Slowly moving target networks |
+| `noise_sigma` | `0.20` | Material early exploration in normalized action space |
+| `replay_buffer_size` | `100000` | Diverse history without excessive memory |
+| `batch_size` | `64` | Stable, checker-friendly update size |
+| `actor_hidden_sizes` | `[256, 256]` | Standard compact actor MLP baseline |
+| `critic_hidden_sizes` | `[256, 256]` | Standard compact critic MLP baseline |
+| `warmup_transitions` | `1000` | Avoid updates on a tiny correlated sample |
+| `episodes` | `200` | Modest local training budget |
+| `max_steps_per_episode` | `500` | Bounded runtime and meaningful coverage horizon |
 
 All values will live in configuration and the final report will state any overrides.
 

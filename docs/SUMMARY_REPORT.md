@@ -2,13 +2,13 @@
 
 ## Report status
 
-This is a documentation-phase report skeleton dated 2026-06-20. No simulator, DDPG implementation, training run, checkpoint, metric, or plot exists yet. Planned locations are listed for traceability, but this document must not be treated as final experimental evidence.
+This is an implementation-progress report dated 2026-06-20. The project scaffold, custom simulator, random-policy CLI, trajectory plotting, and simulator tests exist. No DDPG implementation, DDPG training run, checkpoint, training metric, learning curve, critic-loss graph, or trained-policy trajectory exists yet.
 
-The current workspace is not yet initialized as a Git repository. Git initialization and meaningful commit history are explicit scaffold/final-audit tasks, not silently claimed as complete.
+The workspace is an initialized Git repository tracking `origin/main`. Future development commits must preserve a meaningful history and keep documentation synchronized with implementation.
 
 ## 1. Project scope
 
-The project will implement a custom 2D robotic-vacuum simulator and a from-scratch PyTorch DDPG agent. The robot receives local distance sensors, velocity, heading, collision contact, and coverage; it outputs normalized continuous linear and angular commands. A native sample JSON map is in scope. A loader interface for future HouseExpo conversion is in scope, while full HouseExpo integration is not.
+The project now implements a custom 2D robotic-vacuum simulator. The robot receives local distance sensors, velocity, heading, collision contact, and coverage; the simulator accepts normalized continuous linear and angular commands. A native sample JSON map and future HouseExpo loader boundary exist. A from-scratch PyTorch DDPG agent remains planned, and full HouseExpo integration is not claimed.
 
 ### Documentation audit result
 
@@ -27,7 +27,7 @@ This is a pass of the documentation design, not evidence that the future impleme
 
 The general guideline's API-gatekeeper requirement is not applicable because this release has no external API, network, cloud, or third-party service call.
 
-## 2. Planned architecture
+## 2. Current and planned architecture
 
 ```text
 CLI -> VacuumSDK -> Trainer -> Environment
@@ -40,6 +40,8 @@ CLI -> VacuumSDK -> Trainer -> Environment
 ```
 
 The SDK is the single external business interface. Simulator and DDPG remain independent domain packages, joined by state/action contracts in the trainer.
+
+Current executable flow: `CLI -> VacuumSDK -> VacuumEnvironment -> trajectory plot`. The trainer and DDPG agent boxes in the diagram remain planned.
 
 ## 3. DDPG explanation
 
@@ -85,21 +87,21 @@ The final report shall replace `TBD` with exact relative file paths and line num
 
 These are planned baseline defaults, not experimental values. The final report must copy the resolved values from the saved metrics artifact.
 
-| Hyperparameter | Planned default | Actual reported run |
+| Configuration key | Planned default | Actual reported run |
 |---|---:|---:|
-| Actor learning rate | `0.0001` | TBD |
-| Critic learning rate | `0.001` | TBD |
-| Discount `gamma` | `0.99` | TBD |
-| Soft update `tau` | `0.005` | TBD |
-| Gaussian sigma | `0.20` | TBD |
-| Replay capacity | `100000` | TBD |
-| Batch size | `64` | TBD |
-| Warm-up transitions | `1000` | TBD |
-| Episodes | `200` | TBD |
-| Max steps per episode | `500` | TBD |
-| Actor hidden layers | `[256, 256]` | TBD |
-| Critic hidden layers | `[256, 256]` | TBD |
-| Seed | `42` | TBD |
+| `actor_lr` | `0.0001` | TBD |
+| `critic_lr` | `0.001` | TBD |
+| `gamma` | `0.99` | TBD |
+| `tau` | `0.005` | TBD |
+| `noise_sigma` | `0.20` | TBD |
+| `replay_buffer_size` | `100000` | TBD |
+| `batch_size` | `64` | TBD |
+| `warmup_transitions` | `1000` | TBD |
+| `episodes` | `200` | TBD |
+| `max_steps_per_episode` | `500` | TBD |
+| `actor_hidden_sizes` | `[256, 256]` | TBD |
+| `critic_hidden_sizes` | `[256, 256]` | TBD |
+| `seed` | `42` | TBD |
 
 ## 6. Simulator design summary
 
@@ -140,10 +142,11 @@ No claim about convergence or behavior shall be added until these artifacts are 
 
 | Check | Expected command | Current status |
 |---|---|---|
-| Dependency sync | `uv sync --extra dev` | Not available before scaffold |
-| Tests | `uv run pytest` | Not available before implementation |
-| Coverage | `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | Not measured |
-| Lint | `uv run ruff check .` | Not available before scaffold |
+| Dependency sync | `uv sync --extra dev` | Passed; `uv.lock` created |
+| Tests | `uv run pytest` | Passed: 10 tests |
+| Coverage | `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | Passed: 86.14% |
+| Lint | `uv run ruff check .` | Passed: zero violations |
+| Random-policy demo | `uv run robot-vacuum --max-steps 10 --seed 42` | Passed; trajectory PNG created |
 | Smoke training | `uv run robot-vacuum train --config config/smoke_training.json` | Not available |
 
 ## 9. Limitations and future improvements
@@ -174,3 +177,14 @@ No claim about convergence or behavior shall be added until these artifacts are 
 - [ ] No forbidden framework is imported or declared.
 - [ ] Docs, configuration, state/action shapes, and code agree.
 - [ ] Limitations accurately describe HouseExpo support and training evidence.
+
+## 11. Remaining documentation-phase risks
+
+- DDPG implementation has not started, so planned DDPG module paths and interfaces are not yet validated by imports or tests.
+- The scaffold, configuration, sample map, and simulator exist, but this milestone is not yet committed/pushed.
+- No DDPG training, trained-policy evaluation, checkpoint, metric, learning curve, critic-loss graph, or trained-policy trajectory exists.
+- A random-policy trajectory plot exists only as simulator integration evidence; it is not a trained result.
+- The smoke-run contract is measurable on paper but remains unexecuted.
+- Full HouseExpo compatibility remains explicitly out of scope; only an adapter boundary is designed.
+- DDPG convergence is sensitive to reward scale, seed, and training budget, so no performance claim is justified yet.
+- Final code line numbers, actual hyperparameters, test coverage, and Ruff status remain pending implementation evidence.
