@@ -18,6 +18,14 @@ Python 3.11 or newer and `uv` are required. No environment variables or secrets 
 uv run robot-vacuum demo --max-steps 150 --seed 42
 ```
 
+For an animated README-ready walkthrough generated only from simulator state:
+
+```bash
+uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3
+```
+
+The GIF is written to `results/animations/random_policy_demo.gif`. It is a random-policy simulator demonstration, not evidence of DDPG convergence.
+
 The CLI prints:
 
 - executed step count;
@@ -83,7 +91,7 @@ uv run pytest
 uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
 ```
 
-At the DDPG smoke audit these pass with 19 tests and 88.08% coverage under the documented coverage policy.
+At the live-demo audit these pass with 20 tests and 88.48% coverage under the documented coverage policy.
 
 ## Troubleshooting
 

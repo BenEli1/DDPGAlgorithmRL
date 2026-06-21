@@ -6,11 +6,12 @@ from pathlib import Path
 from typing import Any
 
 from robot_vacuum_ddpg.reporting import write_demo_metrics, write_demo_report
-from robot_vacuum_ddpg.sdk.session import DemoSession
+from robot_vacuum_ddpg.sdk.session import DemoSession, DemoSnapshot
 from robot_vacuum_ddpg.shared.paths import PROJECT_ROOT, RESULTS_DIR, ensure_result_directories
 from robot_vacuum_ddpg.shared.random_seed import seed_everything
 from robot_vacuum_ddpg.simulator.environment import EnvironmentConfig, VacuumEnvironment
 from robot_vacuum_ddpg.simulator.map_loader import JsonMapLoader
+from robot_vacuum_ddpg.visualization.animation import AnimationFrame, save_trajectory_animation
 from robot_vacuum_ddpg.visualization.trajectory import save_trajectory_plot
 
 
@@ -68,6 +69,25 @@ class VacuumSDK:
         floor_map = environment.floor_map
         requested_steps = max_steps or environment.config.max_steps
         return DemoSession(floor_map, environment, seed, requested_steps)
+
+    def record_random_episode(
+        self,
+        simulator_config_path: Path,
+        output_path: Path,
+        seed: int = 42,
+        max_steps: int = 150,
+        frame_stride: int = 3,
+    ) -> Path:
+        """Record a seeded episode from SDK snapshots, never from the desktop."""
+        if frame_stride <= 0:
+            raise ValueError("frame_stride must be positive")
+        session = self.create_demo_session(simulator_config_path, seed, max_steps)
+        frames = [self._animation_frame(session.snapshot())]
+        while not session.done:
+            snapshot = session.step_random()
+            if snapshot.done or snapshot.step % frame_stride == 0:
+                frames.append(self._animation_frame(snapshot))
+        return save_trajectory_animation(session.floor_map, frames, output_path)
 
     def create_environment(
         self,
@@ -163,6 +183,19 @@ class VacuumSDK:
             trajectory_path=destination,
             metrics_path=metrics_destination,
             report_path=report_destination,
+        )
+
+    @staticmethod
+    def _animation_frame(snapshot: DemoSnapshot) -> AnimationFrame:
+        return AnimationFrame(
+            snapshot.step,
+            snapshot.total_reward,
+            snapshot.coverage_percent,
+            snapshot.robot_position,
+            snapshot.robot_heading,
+            snapshot.trajectory,
+            snapshot.collision_points,
+            snapshot.cleaned_cells,
         )
 
     @staticmethod

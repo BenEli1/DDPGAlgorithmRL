@@ -111,7 +111,7 @@ A meaningful empirical result requires a longer budget, multiple seeds, consiste
 |---|---|
 | `uv sync --extra dev --system-certs` | Passed; lockfile resolved with PyTorch |
 | `uv run pytest` | 19 passed |
-| `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | 88.08%; 85% gate passed |
+| `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | 20 passed; 88.48%; 85% gate passed |
 | `uv run ruff check .` | Passed; zero violations |
 | Smoke training CLI | Passed; four training artifacts generated |
 | Evaluation CLI | Passed; trajectory generated |

@@ -10,6 +10,7 @@ Generated runtime artifacts live under `results/`. They are intentionally ignore
 | Metrics | `results/metrics/random_policy_metrics.json` | `uv run robot-vacuum demo --max-steps 150 --seed 42` | Generated locally; ignored |
 | Report | `results/reports/random_policy_report.md` | `uv run robot-vacuum demo --max-steps 150 --seed 42` | Generated locally; ignored |
 | Image | `results/screenshots/gui_demo.png` | Run `uv run robot-vacuum gui`, then click **Save screenshot** | Generated locally; ignored |
+| Animation | `results/animations/random_policy_demo.gif` | `uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3` | Generated locally; reviewed copy committed under `assets/evidence/` |
 | Image | `results/plots/learning_curve.png` | `uv run robot-vacuum train --config config/smoke_training.json` | Generated locally; ignored |
 | Image | `results/plots/critic_loss.png` | `uv run robot-vacuum train --config config/smoke_training.json` | Generated locally; ignored |
 | Metrics | `results/metrics/training_metrics.json` | `uv run robot-vacuum train --config config/smoke_training.json` | Generated locally; ignored |

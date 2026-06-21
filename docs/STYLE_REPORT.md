@@ -62,8 +62,8 @@ The report writer does not recalculate rewards, collisions, coverage, or positio
 Verified:
 
 ```text
-19 tests passed
-88.08% aggregate coverage
+20 tests passed
+88.48% aggregate coverage
 0 Ruff violations
 ```
 
