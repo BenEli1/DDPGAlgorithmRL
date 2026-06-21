@@ -34,7 +34,7 @@ The first draft is reviewed against the assignment for:
 
 All eight required Markdown files exist, contain no unqualified implementation claims, and jointly cover AC-1 through AC-16.
 
-## Phase 1 - Project scaffold (complete locally; commit pending)
+## Phase 1 - Project scaffold (complete and committed)
 
 ### Work
 
@@ -75,7 +75,23 @@ The package imports, configuration loads, CLI help runs, and no domain placehold
 
 Simulator unit and integration tests pass without importing PyTorch or any forbidden environment library. A scripted action sequence yields finite observations, collision evidence, and increasing coverage.
 
-## Phase 3 - DDPG core (next; not started)
+## Phase 2.5 - Demo evidence and local GUI (complete)
+
+### Implemented work
+
+1. Added explicit `demo` and `make-demo` CLI commands that generate trajectory, JSON metrics, and Markdown reports.
+2. Added an SDK-owned `DemoSession` and immutable `DemoSnapshot` for incremental consumers.
+3. Added a Tkinter GUI with reset, random step, scheduled run, pause, screenshot, and report controls.
+4. Added GUI inputs for seed, maximum steps, map path, and display delay.
+5. Added canvas rendering for boundaries, obstacles, cleaned cells, collision attempts, trajectory, robot position, and heading.
+6. Added a portable Matplotlib map-view screenshot fallback at `results/screenshots/gui_demo.png`.
+7. Added GUI-independent coordinate/status tests; no display server is required by the test suite.
+
+### Architecture gate
+
+The GUI imports the SDK contract and shared path constants only. Simulator construction, stepping, rewards, collision, coverage, report serialization, and Matplotlib artifact rendering remain behind SDK methods.
+
+## Phase 3 - DDPG core (implemented and smoke verified)
 
 ### Work order
 

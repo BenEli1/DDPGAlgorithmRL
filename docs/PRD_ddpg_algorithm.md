@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-Specify an inspectable, from-scratch PyTorch implementation of Deep Deterministic Policy Gradient for a two-dimensional continuous robot action. This document is the contract for the future `ddpg/` package and its tests.
+Specify and trace the implemented, from-scratch PyTorch Deep Deterministic Policy Gradient pipeline for a two-dimensional continuous robot action. The smoke run verifies integration; this contract does not assert convergence.
 
 ## 2. Why DDPG is appropriate
 
@@ -22,7 +22,7 @@ Shape validation shall fail clearly instead of relying on accidental PyTorch bro
 
 ## 4. Actor network
 
-Planned location: `src/robot_vacuum_ddpg/ddpg/actor.py`.
+Implementation: `src/robot_vacuum_ddpg/ddpg/actor.py`.
 
 The actor represents the deterministic policy:
 
@@ -41,7 +41,7 @@ The final `tanh` is mandatory and shall be directly visible in `forward`. It bou
 
 ## 5. Critic network
 
-Planned location: `src/robot_vacuum_ddpg/ddpg/critic.py`.
+Implementation: `src/robot_vacuum_ddpg/ddpg/critic.py`.
 
 The critic represents:
 
@@ -60,7 +60,7 @@ The output has no bounding activation because Q-values may be any real number. T
 
 ## 6. Target networks
 
-Planned composition location: `src/robot_vacuum_ddpg/ddpg/agent.py`.
+Composition: `src/robot_vacuum_ddpg/ddpg/agent.py`.
 
 The agent owns:
 
@@ -73,7 +73,7 @@ At construction, target weights shall be exact copies of online weights. Target 
 
 ## 7. Replay buffer
 
-Planned location: `src/robot_vacuum_ddpg/ddpg/replay_buffer.py`.
+Implementation: `src/robot_vacuum_ddpg/ddpg/replay_buffer.py`.
 
 Each transition contains:
 
@@ -94,7 +94,7 @@ Replay breaks short-term correlation and allows DDPG's off-policy updates to reu
 
 ## 8. Gaussian exploration noise
 
-Planned location: `src/robot_vacuum_ddpg/ddpg/noise.py`; application in `agent.py` action selection.
+Implementation: `src/robot_vacuum_ddpg/ddpg/noise.py`; application in `agent.py` action selection.
 
 During training only:
 
@@ -140,7 +140,7 @@ Minimizing negative Q maximizes the critic's assessment of actor actions. Critic
 
 ### 9.4 Soft target update
 
-Planned location: `src/robot_vacuum_ddpg/ddpg/soft_update.py`.
+Implementation: `src/robot_vacuum_ddpg/ddpg/soft_update.py`.
 
 After online updates, every corresponding target parameter shall be updated in place:
 
@@ -207,15 +207,15 @@ A checkpoint shall store online/target model states, optimizer states, state/act
 
 ## 14. Traceability table
 
-| Assignment requirement | Planned implementation | Planned verification |
+| Assignment requirement | Verified implementation | Verification |
 |---|---|---|
-| Actor with `tanh` | `ddpg/actor.py` | actor bounds test |
-| Critic gets state and action | `ddpg/critic.py` | critic shape/input test |
-| Target actor and critic | `ddpg/agent.py` | target initialization test |
-| Replay transitions | `ddpg/replay_buffer.py` | buffer tests |
-| Gaussian exploration | `ddpg/noise.py`, `agent.py` | noise/clipping tests |
-| Critic Bellman update | `ddpg/agent.py` | terminal-mask/update tests |
-| Actor negative-Q update | `ddpg/agent.py` | actor update test |
-| Soft target equation | `ddpg/soft_update.py` | exact arithmetic test |
+| Actor with `tanh` | `ddpg/actor.py:9,21` | actor bounds test |
+| Critic gets state and action | `ddpg/critic.py:9,28` | critic shape test |
+| Target actor and critic | `ddpg/agent.py:58-64` | smoke training and checkpoint evaluation |
+| Replay transitions | `ddpg/replay_buffer.py:19` | sample-shape and defensive-copy test |
+| Gaussian exploration | `ddpg/noise.py:6`, `ddpg/agent.py:78` | noise/clipping tests |
+| Critic Bellman update | `ddpg/agent.py:91-99` | smoke optimizer updates |
+| Actor negative-Q update | `ddpg/agent.py:101-105` | smoke optimizer updates |
+| Soft target equation | `ddpg/soft_update.py:6` | exact arithmetic test |
 
 Exact line numbers will be added to `SUMMARY_REPORT.md` only after implementation.
