@@ -2,6 +2,24 @@
 
 This log records material AI-assisted development prompts and the decisions produced from them. It is intentionally concise rather than a transcript of every tool command. Dates use the local project date.
 
+## Entry 006 - DDPG implementation and teacher evidence
+
+**Date:** 2026-06-21
+**Phase:** Learning implementation, verification, and submission evidence
+
+### Prompt summary
+
+Implement the complete DDPG pipeline without changing the simulator contract, generate smoke-training/evaluation artifacts, add the required tests, keep claims honest, and prepare GitHub-visible evidence against the teacher's assessment categories.
+
+### Decisions and observed result
+
+- Added actor/critic targets, replay, Gaussian noise, soft updates, checkpointing, trainer, metrics, plots, and deterministic evaluation through the SDK.
+- Kept smoke and default configurations separate so CI correctness does not masquerade as a long experiment.
+- Recorded 25 optimizer updates from 40 smoke transitions and a poor 0.89% evaluation coverage result.
+- Described the result as integration evidence only; no convergence claim was introduced.
+- Added committed application-generated plots rather than relying on ignored runtime paths.
+- Added experiment, cost/resource, extensibility, and automated quality evidence for rubric traceability.
+
 ## Entry 001 - Documentation-first project definition
 
 **Date:** 2026-06-20  

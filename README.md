@@ -7,11 +7,13 @@ A compact, inspectable Python project for Bar-Ilan University Exercise 05. It co
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB)
 ![uv](https://img.shields.io/badge/dependencies-uv-6E56CF)
 ![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)
-![Coverage](https://img.shields.io/badge/coverage-88.23%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-88.08%25-brightgreen)
 ![Ruff](https://img.shields.io/badge/Ruff-0%20violations-brightgreen)
 ![DDPG status](https://img.shields.io/badge/DDPG-smoke%20verified-blue)
 
 > **Current status:** the simulator, SDK, CLI/GUI demos, DDPG networks and updates, replay, exploration, checkpointing, training, evaluation, plots, tests, and reports are implemented. A two-episode smoke run proves integration only; it does not demonstrate convergence or a useful trained policy.
+
+> **Teacher/reviewer shortcut:** open the [Teacher Evidence Pack](docs/TEACHER_EVIDENCE.md) for committed screenshots, assessment traceability, experimental conclusions, resource costs, extensibility, and quality evidence.
 
 ## Exercise 05 compliance summary
 
@@ -95,7 +97,7 @@ The screenshot action writes `results/screenshots/gui_demo.png`. For portability
 
 ## Generated artifacts
 
-Runtime outputs are reproducible, generated locally, and intentionally ignored by Git. Run the commands above before opening the image previews.
+Canonical runtime outputs are reproducible, generated locally, and intentionally ignored by Git. Curated, reviewed copies are committed under `assets/evidence/` so reviewers can inspect them directly on GitHub.
 
 | Artifact | Path | Generation | Status |
 |---|---|---|---|
@@ -109,30 +111,30 @@ Runtime outputs are reproducible, generated locally, and intentionally ignored b
 | Training metrics | `results/metrics/training_metrics.json` | Smoke/default training command | Implemented; generated locally |
 | Actor checkpoint | `results/checkpoints/best_actor.pt` | Smoke/default training command | Implemented; generated locally |
 
-<details>
-<summary><strong>Local image previews — generate the artifacts first</strong></summary>
+<details open>
+<summary><strong>Committed evidence previews</strong></summary>
 
-The following relative image references resolve only after running their documented generation commands. They are generated locally, ignored by Git, and not claimed to be committed assets.
+These reviewed snapshots are committed. Their canonical `results/` counterparts can be regenerated with the commands above.
 
 ### Random-policy trajectory
 
-![Random policy trajectory](results/trajectories/random_policy.png)
+![Random policy trajectory](assets/evidence/random_policy_trajectory.png)
 
 ### GUI map-view screenshot
 
-![GUI demo](results/screenshots/gui_demo.png)
+![GUI demo](assets/evidence/gui_map_view.png)
 
 ### DDPG smoke learning curve
 
-![DDPG smoke learning curve](results/plots/learning_curve.png)
+![DDPG smoke learning curve](assets/evidence/smoke_learning_curve.png)
 
 ### DDPG smoke critic loss
 
-![DDPG smoke critic loss](results/plots/critic_loss.png)
+![DDPG smoke critic loss](assets/evidence/smoke_critic_loss.png)
 
 ### DDPG smoke-checkpoint evaluation
 
-![DDPG evaluation trajectory](results/trajectories/evaluation_trajectory.png)
+![DDPG evaluation trajectory](assets/evidence/smoke_evaluation_trajectory.png)
 
 </details>
 
@@ -250,7 +252,7 @@ Audited result:
 | Gate | Result |
 |---|---|
 | Tests | 19 passed |
-| Coverage | 88.23% against an 85% gate |
+| Coverage | 88.08% against an 85% gate |
 | Ruff | Zero violations |
 | Module size | Focused domain modules; largest SDK facade is 175 nonblank, non-comment lines |
 | Forbidden frameworks | None in dependencies or executable imports |
@@ -272,6 +274,10 @@ Thin CLI/Tkinter rendering wrappers are excluded from aggregate coverage; GUI-in
 - [Demo guide](docs/DEMO_GUIDE.md)
 - [GUI guide](docs/GUI_GUIDE.md)
 - [Results guide](docs/RESULTS_GUIDE.md)
+- [Teacher evidence pack](docs/TEACHER_EVIDENCE.md)
+- [Experiment and analysis log](docs/EXPERIMENTS.md)
+- [Resource and cost awareness](docs/RESOURCE_AND_COST.md)
+- [Quality standards and CI policy](docs/QUALITY_STANDARDS.md)
 - [AI prompt and decision log](docs/PROMPT_LOG.md)
 
 ## Known limitations
