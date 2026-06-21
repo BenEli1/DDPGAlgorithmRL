@@ -46,6 +46,4 @@ These Markdown files are authored repository documentation, not generated runtim
 - `docs/STYLE_REPORT.md`
 - `docs/FINAL_AUDIT.md`
 
-## Untracked submission-format files
-
-The workspace also contains `benelirl-ex05.docx` and `benelirl-ex05.pdf` (one PDF page). They were not produced by the documented runtime commands or by this style pass, and no exact generation command is recorded in the repository. They remain untracked and require an intentional include/exclude decision before submission; they are not presented as reproducible generated artifacts here.
+Personal submission files and source course documents are intentionally excluded by generic PDF and office-document ignore rules. They are not project artifacts and must not be committed.

@@ -42,7 +42,7 @@ The two-episode run produced 25 optimizer updates. Evaluation reached only 0.89%
 | Code documentation | Typed modules, design-focused docstrings, [README](../README.md), demo/GUI/results guides |
 | Testing and quality | 19 tests, 88.08% coverage, Ruff, and [automated GitHub workflow](../.github/workflows/quality.yml) |
 | UI and user experience | SDK-backed Tkinter GUI, committed map-view image, [GUI guide](GUI_GUIDE.md) |
-| Configuration and security | `pyproject.toml`, locked `uv.lock`, versioned JSON configuration, `.env-example`, no secrets or network services |
+| Configuration and security | `pyproject.toml`, locked `uv.lock`, versioned JSON configuration, `.env-example`, and the [privacy/security policy](PRIVACY_SECURITY.md) |
 | Research and analysis | [Experiment log](EXPERIMENTS.md) with hypotheses, observations, conclusions, and next experiments |
 | Version and AI workflow | Meaningful Git commits plus [AI prompt and decision log](PROMPT_LOG.md) |
 | Cost awareness | [Resource and cost analysis](RESOURCE_AND_COST.md) with memory/runtime scaling equations |

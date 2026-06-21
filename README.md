@@ -277,6 +277,7 @@ Thin CLI/Tkinter rendering wrappers are excluded from aggregate coverage; GUI-in
 - [Teacher evidence pack](docs/TEACHER_EVIDENCE.md)
 - [Experiment and analysis log](docs/EXPERIMENTS.md)
 - [Resource and cost awareness](docs/RESOURCE_AND_COST.md)
+- [Privacy and security policy](docs/PRIVACY_SECURITY.md)
 - [Quality standards and CI policy](docs/QUALITY_STANDARDS.md)
 - [AI prompt and decision log](docs/PROMPT_LOG.md)
 

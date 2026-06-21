@@ -17,5 +17,12 @@ results/reports/*
 results/screenshots/*
 results/trajectories/*
 !results/**/.gitkeep
-benelirl-ex05.docx
-benelirl-ex05.pdf
+
+# Keep personal submissions and source course documents outside Git.
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx

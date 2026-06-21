@@ -106,7 +106,7 @@ These are intentionally ignored, not committed evidence. A clean clone regenerat
 - The GUI screenshot is a portable Matplotlib rendering of the current map view, not a capture of Tkinter window chrome.
 - GUI wrapper/rendering files are excluded from aggregate coverage; GUI-independent conversions are unit tested and window initialization is smoke checked manually.
 - Current working-tree changes still require an intentional review/commit before submission.
-- `benelirl-ex05.docx` and `benelirl-ex05.pdf` are untracked submission-format files with no repository-recorded generation command; this pass preserved them and does not infer their provenance.
+- Personal submission files and source course documents remain local and are excluded by generic PDF and office-document ignore rules.
 
 ## Final sign-off commands
 
