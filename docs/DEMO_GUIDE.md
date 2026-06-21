@@ -83,7 +83,7 @@ uv run pytest
 uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
 ```
 
-At the DDPG smoke audit these pass with 19 tests and 88.23% coverage under the documented coverage policy.
+At the DDPG smoke audit these pass with 19 tests and 88.08% coverage under the documented coverage policy.
 
 ## Troubleshooting
 

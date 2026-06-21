@@ -63,7 +63,7 @@ Verified:
 
 ```text
 19 tests passed
-88.23% aggregate coverage
+88.08% aggregate coverage
 0 Ruff violations
 ```
 

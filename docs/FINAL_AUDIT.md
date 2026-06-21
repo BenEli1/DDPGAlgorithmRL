@@ -21,7 +21,7 @@ Observed results:
 - uv resolved 50 packages and installed the locked PyTorch runtime successfully.
 - Ruff passed with zero violations.
 - Pytest passed all 19 tests.
-- Coverage passed the configured 85% gate at 88.23%.
+- Coverage passed the configured 85% gate at 88.08%.
 - The seeded demo generated a PNG, JSON metrics, and Markdown report.
 - A Tkinter create/update/destroy smoke check initialized the GUI successfully.
 - The GUI screenshot fallback generated a readable PNG with map, path, cleaned cells, robot position, and heading.
@@ -106,7 +106,7 @@ These are intentionally ignored, not committed evidence. A clean clone regenerat
 - The GUI screenshot is a portable Matplotlib rendering of the current map view, not a capture of Tkinter window chrome.
 - GUI wrapper/rendering files are excluded from aggregate coverage; GUI-independent conversions are unit tested and window initialization is smoke checked manually.
 - Current working-tree changes still require an intentional review/commit before submission.
-- `benelirl-ex05.docx` and `benelirl-ex05.pdf` are untracked submission-format files with no repository-recorded generation command; this pass preserved them and does not infer their provenance.
+- Personal submission files and source course documents remain local and are excluded by generic PDF and office-document ignore rules.
 
 ## Final sign-off commands
 

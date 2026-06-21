@@ -1,0 +1,29 @@
+name: Quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install locked dependencies
+        run: uv sync --extra dev --locked
+
+      - name: Check style
+        run: uv run ruff check .
+
+      - name: Run tests and coverage gate
+        run: uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
