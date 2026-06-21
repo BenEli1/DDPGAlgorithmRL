@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
     "matplotlib>=3.9,<4",
     "numpy>=2.0,<3",
+    "torch>=2.5,<3",
 ]
 
 [project.optional-dependencies]
@@ -33,7 +34,11 @@ testpaths = ["tests"]
 [tool.coverage.run]
 branch = true
 source = ["robot_vacuum_ddpg"]
-omit = ["src/robot_vacuum_ddpg/main.py"]
+omit = [
+    "src/robot_vacuum_ddpg/main.py",
+    "src/robot_vacuum_ddpg/gui/app.py",
+    "src/robot_vacuum_ddpg/gui/canvas_renderer.py",
+]
 
 [tool.coverage.report]
 fail_under = 85

@@ -14,6 +14,8 @@ def ensure_result_directories() -> None:
         RESULTS_DIR / "checkpoints",
         RESULTS_DIR / "metrics",
         RESULTS_DIR / "plots",
+        RESULTS_DIR / "reports",
+        RESULTS_DIR / "screenshots",
         RESULTS_DIR / "trajectories",
     ):
         path.mkdir(parents=True, exist_ok=True)

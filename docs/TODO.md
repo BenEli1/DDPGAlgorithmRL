@@ -26,7 +26,7 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 - [x] Create `pyproject.toml` with Python and dependency metadata.
 - [x] Configure Ruff, pytest, and coverage.
 - [x] Create `uv.lock`.
-- [ ] Commit `uv.lock` with the scaffold milestone.
+- [x] Commit `uv.lock` with the scaffold milestone.
 - [x] Add `.gitignore` and `.env-example`.
 - [x] Create package, test, config, data, assets, and results directories.
 - [x] Add package version `1.0.0` and configuration schema version `1.00`.
@@ -54,40 +54,46 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 
 ## DDPG
 
-- [ ] Implement actor network with final `tanh`.
-- [ ] Implement critic network over concatenated state and action.
-- [ ] Create target actor and target critic from online weights.
-- [ ] Implement replay buffer and random mini-batches.
-- [ ] Implement Gaussian exploration noise and action clipping.
-- [ ] Implement terminal-masked Bellman target.
-- [ ] Implement critic MSE update.
-- [ ] Implement actor `-Q` update.
-- [ ] Implement and call soft target update with `tau`.
-- [ ] Implement CPU checkpoint save/load.
-- [x] Reserve future hyperparameters in versioned configuration without implementing DDPG logic.
+- [x] Implement actor network with final `tanh`.
+- [x] Implement critic network over concatenated state and action.
+- [x] Create target actor and target critic from online weights.
+- [x] Implement replay buffer and random mini-batches.
+- [x] Implement Gaussian exploration noise and action clipping.
+- [x] Implement terminal-masked Bellman target.
+- [x] Implement critic MSE update.
+- [x] Implement actor `-Q` update.
+- [x] Implement and call soft target update with `tau`.
+- [x] Implement CPU checkpoint save/load.
+- [x] Use versioned training hyperparameters in real DDPG runs.
 - [x] Use the exact configuration names `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, and `replay_buffer_size`.
 
 ## Training, SDK, and CLI
 
 - [x] Implement deterministic seed utility for the simulator and random-policy demo.
-- [ ] Implement metrics collector and JSON schema.
-- [ ] Implement warm-up and episode training loop.
-- [ ] Implement noise-free evaluation rollout.
-- [ ] Expose training, evaluation, and plotting only through `VacuumSDK`.
-- [ ] Add `train`, `evaluate`, and `plot` CLI commands.
+- [x] Implement metrics collector and JSON schema.
+- [x] Implement warm-up and episode training loop.
+- [x] Implement noise-free evaluation rollout.
+- [x] Expose training and evaluation through `VacuumSDK`.
+- [x] Add `train` and `evaluate` CLI commands; training generates plots directly.
 - [x] Add clear simulator configuration, action, map, and missing-file errors.
 
 ## Visualization and results
 
 - [x] Generate and test `results/trajectories/random_policy.png` from the simulator CLI.
-- [ ] Generate `results/plots/learning_curve.png`.
-- [ ] Generate `results/plots/critic_loss.png`.
-- [ ] Generate `results/trajectories/evaluation_trajectory.png`.
-- [ ] Save `results/metrics/training_metrics.json`.
-- [ ] Verify plots show correct labels, map geometry, and trajectory markers.
-- [ ] Verify reward axes are episode and cumulative reward.
-- [ ] Verify critic-loss axes are optimizer update and critic MSE.
-- [ ] Record run command, seed, resolved configuration, and duration.
+- [x] Generate `results/metrics/random_policy_metrics.json` for simulator demos.
+- [x] Generate `results/reports/random_policy_report.md` from the same metrics record.
+- [x] Add `demo` and `make-demo` aliases for one-command artifact generation.
+- [x] Add an SDK-backed Tkinter GUI with reset, step, run, pause, screenshot, and report controls.
+- [x] Add a portable map-view screenshot fallback at `results/screenshots/gui_demo.png`.
+- [x] Test GUI-independent coordinate and status conversion.
+- [x] Generate `results/plots/learning_curve.png`.
+- [x] Generate `results/plots/critic_loss.png`.
+- [x] Generate `results/trajectories/evaluation_trajectory.png`.
+- [x] Save `results/metrics/training_metrics.json`.
+- [x] Verify plots show correct labels, map geometry, and trajectory markers.
+- [x] Verify reward axes are episode and cumulative reward.
+- [x] Verify critic-loss axes are optimizer update and critic MSE.
+- [x] Record seed, resolved configuration, duration, and generation commands.
 
 ## Tests
 
@@ -97,27 +103,27 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 - [x] Test boundary and obstacle collisions.
 - [x] Test valid and invalid map loading.
 - [ ] Test sensor and state ranges.
-- [ ] Test replay capacity and sample shapes.
-- [ ] Test actor range and output shape.
-- [ ] Test critic scalar output shape.
-- [ ] Test Gaussian noise and final clipping.
-- [ ] Test exact soft target interpolation.
+- [x] Test replay sample shapes and defensive storage.
+- [x] Test actor range and output shape.
+- [x] Test critic scalar output shape.
+- [x] Test Gaussian noise and final clipping.
+- [x] Test exact soft target interpolation.
 - [ ] Test Bellman terminal masking.
-- [ ] Test basic training loop and artifact creation.
+- [x] Test basic training/evaluation loop and artifact creation.
 - [ ] Reach configured coverage target.
 
 ## Final report and audit
 
-- [ ] Replace summary-report placeholders with exact code locations.
-- [ ] Replace planned hyperparameters with the resolved run values.
-- [ ] Add actual result paths and observations.
-- [ ] Answer all three conceptual DDPG questions.
+- [x] Replace summary-report placeholders with exact code locations.
+- [x] Replace planned hyperparameters with the resolved smoke-run values.
+- [x] Add simulator and DDPG smoke result paths and observations.
+- [x] Answer all three conceptual DDPG questions and distinguish implementation from convergence.
 - [x] Run `uv sync --extra dev` from the locked environment.
 - [x] Run `uv run pytest` successfully for the scaffold/simulator milestone.
 - [x] Run `uv run ruff check .` successfully for the scaffold/simulator milestone.
-- [ ] Confirm no forbidden environment framework appears in dependencies/imports.
-- [ ] Confirm `requirements.txt` is absent and `uv.lock` is committed.
-- [ ] Confirm meaningful Git history exists for the submitted repository.
-- [ ] Confirm docs, code, configuration, and metrics agree.
-- [ ] Confirm no secrets or generated caches are committed.
-- [ ] Mark release `1.00` complete only after every mandatory audit item passes.
+- [x] Confirm no forbidden environment framework appears in dependencies/imports.
+- [x] Confirm `requirements.txt` is absent and `uv.lock` is committed.
+- [x] Confirm meaningful Git history exists for the submitted repository.
+- [x] Confirm docs, code, configuration, and metrics agree for the implemented simulator/demo scope.
+- [x] Confirm no secrets or generated caches are committed.
+- [ ] Mark release `1.00` complete only after longer-run evidence expectations are agreed; smoke integration is complete.

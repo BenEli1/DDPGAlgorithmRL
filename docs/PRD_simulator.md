@@ -4,7 +4,7 @@
 
 Define the small custom simulator in which DDPG learns vacuum navigation. The simulator owns deterministic geometry, robot motion, sensing, cleaning coverage, reward, episode state, and map validation. It is not a Gym-compatible wrapper and has no dependency on PyTorch.
 
-Implementation status: this simulator contract is now implemented under `src/robot_vacuum_ddpg/simulator/` and verified by simulator-focused tests. DDPG and training remain outside this layer and are not implemented.
+Implementation status: this simulator contract is implemented under `src/robot_vacuum_ddpg/simulator/` and verified by simulator-focused tests. DDPG and training are implemented in separate packages and consume the simulator only through its existing state/action contract.
 
 ## 2. Release 1 map scope
 
@@ -181,8 +181,11 @@ All physical and reward values reside in `config/default_simulator.json`, are ra
 
 | Module | Responsibility |
 |---|---|
+| `config.py` | Convert versioned JSON values into validated typed simulator configuration |
+| `coverage.py` | Build free-space cells and track first-time cleaning independently of motion |
 | `geometry.py` | Pure intersection, collision, angle, and kinematics helpers/data |
 | `map_loader.py` | Loader protocol, native JSON parsing, validation into `FloorMap` |
+| `observation.py` | Assemble, normalize, and validate the stable state-vector contract |
 | `robot.py` | Robot pose, action scaling, proposal/commit state |
 | `sensors.py` | Ray definitions and nearest normalized distances |
 | `rewards.py` | Reward configuration and pure component calculation |

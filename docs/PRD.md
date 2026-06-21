@@ -34,7 +34,7 @@ The project scaffold and custom simulator requirements FR-1 through FR-4 are imp
 
 ## 5. Non-goals
 
-- Photorealistic physics, SLAM, mapping uncertainty, wheel slip, battery simulation, or a live GUI.
+- Photorealistic physics, SLAM, mapping uncertainty, wheel slip, or battery simulation.
 - Full HouseExpo dataset ingestion in release 1.
 - Comparison experiments against PPO, DQN, or other libraries.
 - Production robotics safety or deployment on physical hardware.
@@ -94,9 +94,14 @@ The report shall identify exact code locations for actor, critic, actor `tanh`, 
 
 The learning curve shall use episode number on the x-axis and cumulative episode reward on the y-axis. The critic-loss graph shall use optimizer update index on the x-axis and mean critic MSE on the y-axis. The trajectory figure shall draw map bounds and obstacles, a continuous path line, and distinct start and final markers. Titles, axes, legends where needed, and non-empty data are mandatory.
 
+### FR-12 Local simulator GUI
+
+The application shall provide a local Tkinter GUI launched by `uv run robot-vacuum gui`. The GUI shall call SDK session methods rather than simulator internals, display map/robot/trajectory/coverage state, support reset/step/run/pause, and delegate reports and screenshot fallback rendering to the SDK. No browser or full-stack component is permitted.
+
 ## 7. Non-functional requirements
 
 - Python 3.11+, NumPy, PyTorch, Matplotlib, pytest, and Ruff.
+- Tkinter from the Python standard library for the optional local GUI; no web frontend dependency.
 - `uv` for locking, syncing, and all documented commands; no `requirements.txt` as a dependency source.
 - Type hints and docstrings on public modules, classes, functions, and methods.
 - Small modules with a single responsibility; target at most 150 code lines per file, excluding blanks and comments, unless a justified exception is recorded.
@@ -110,6 +115,7 @@ The learning curve shall use episode number on the x-axis and cumulative episode
 | Layer | Ownership | Must not own |
 |---|---|---|
 | CLI | Parse commands, print results, choose exit codes | Training logic or DDPG math |
+| GUI | Render SDK snapshots and forward user actions | Simulator, reward, collision, or report logic |
 | SDK | Stable high-level `train`, `evaluate`, and `plot` use cases | Neural-network internals |
 | Training | Episode orchestration and metrics | Geometry or network definitions |
 | Simulator | Map, geometry, sensors, robot, coverage, reward | PyTorch or replay memory |

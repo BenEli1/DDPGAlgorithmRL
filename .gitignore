@@ -13,5 +13,9 @@ dist/
 results/checkpoints/*
 results/metrics/*
 results/plots/*
+results/reports/*
+results/screenshots/*
 results/trajectories/*
 !results/**/.gitkeep
+benelirl-ex05.docx
+benelirl-ex05.pdf

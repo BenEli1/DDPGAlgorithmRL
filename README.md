@@ -1,207 +1,297 @@
-# DDPG Robotic Vacuum Simulator
+# Exercise 05: DDPG Robotic Vacuum Simulator
 
-A small, inspectable Python project for Bar-Ilan University Vibe Coding Workshop Exercise 05. The current milestone provides a custom 2D robotic-vacuum simulator; a from-scratch PyTorch DDPG agent is the next planned milestone.
+A compact, inspectable Python project for Bar-Ilan University Exercise 05. It combines a project-owned continuous-control vacuum simulator with a from-scratch PyTorch DDPG agent, reproducible CLI evidence, an SDK facade, and a local Tkinter GUI.
 
-> Milestone status: project scaffold, simulator, random-policy CLI demo, trajectory plotting, and simulator tests are implemented. DDPG networks, replay, exploration, training, learning curves, critic-loss graphs, checkpoints, and trained-policy results remain pending.
+## Current status
 
-## Safe assignment scope
+![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB)
+![uv](https://img.shields.io/badge/dependencies-uv-6E56CF)
+![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-88.23%25-brightgreen)
+![Ruff](https://img.shields.io/badge/Ruff-0%20violations-brightgreen)
+![DDPG status](https://img.shields.io/badge/DDPG-smoke%20verified-blue)
 
-The first release will demonstrate the complete DDPG learning pipeline without trying to reproduce a physics engine:
+> **Current status:** the simulator, SDK, CLI/GUI demos, DDPG networks and updates, replay, exploration, checkpointing, training, evaluation, plots, tests, and reports are implemented. A two-episode smoke run proves integration only; it does not demonstrate convergence or a useful trained policy.
 
-- A custom, headless 2D simulator; no Gymnasium, Gazebo, Stable-Baselines, RLlib, or external environment.
-- A circular robot with pose `(x, y, theta)` and differential-drive-like control.
-- A two-value continuous action `[linear_command, angular_command]`, with both values clipped to `[-1, 1]` and scaled by configured speed limits.
-- JSON floor plans containing a bounded free area and rectangular obstacles.
-- A map-loader interface designed for later HouseExpo adaptation, plus one small project-native sample map. Full HouseExpo compatibility is not claimed for the first release.
-- Normalized ray distance sensors, robot motion and heading, collision contact, and cleaning coverage in the state vector.
-- Reward for newly cleaned cells and completion; penalties for collisions, time, and excessive actuation.
-- A future DDPG actor, critic, target networks, replay buffer, Gaussian exploration noise, and soft target updates implemented directly in PyTorch.
-- A working Matplotlib trajectory output now; reward and critic-loss plots after DDPG training exists.
-- Deterministic simulator tests and a random-policy CLI demo suitable for automated checking.
+## Exercise 05 compliance summary
 
-## Source priority
+| Requirement | Status | Evidence |
+|---|---|---|
+| Custom 2D simulator | Implemented | Project-owned geometry, kinematics, sensors, collision, coverage, and reward modules |
+| No Gymnasium or Gazebo | Implemented | No forbidden dependency or import |
+| Continuous action in `[-1, 1]` | Implemented | Normalized linear and angular commands with defensive clipping |
+| Continuous state vector | Implemented | Seven rays, velocities, heading, coverage, and contact: 13 values by default |
+| Trajectory visualization | Implemented | Random-policy trajectory, cleaned cells, collisions, start/final pose, and heading |
+| Actor, critic, and final `tanh` | Implemented | PyTorch networks with tested shapes and action bounds |
+| Replay, Gaussian noise, and soft updates | Implemented | Seeded replay/noise and exact interpolation unit tests |
+| Learning and critic-loss curves | Implemented | Generated from recorded smoke-run metrics |
+| Checkpoint evaluation | Implemented | Deterministic rollout; no convergence claim |
+| HouseExpo | Partial boundary only | Native sample map plus loader protocol; no HouseExpo parser claim |
 
-Requirements are interpreted in this order:
+The assignment PDFs are interpreted in this order: Exercise 05 specification, Lecture 09 DDPG notes, DDPG autonomous blueprint, and professional software guidelines.
 
-1. `EX05-DDPG-Robot-Simulator (1).pdf`
-2. `gemini-L09-Deep-Deterministic-Policy-Gradient-DDPG-and-EX05t.pdf`
-3. `DDPG_Autonomous_Blueprint.pdf`
-4. `software_submission_guidelines-V3.pdf`
+## Quick start
 
-If this README conflicts with a higher-priority source, the source wins and the documentation must be corrected before implementation.
+Requirements:
 
-## Current and planned repository structure
+- Python 3.11 or newer
+- [`uv`](https://docs.astral.sh/uv/)
+- Tkinter for the optional GUI (included in standard Windows/macOS Python; minimal Linux installations may require `python3-tk`)
 
-```text
-.
-|-- README.md
-|-- pyproject.toml
-|-- uv.lock
-|-- .gitignore
-|-- .env-example
-|-- assets/
-|-- config/
-|   |-- default_simulator.json
-|   |-- default_training.json
-|   `-- smoke_training.json
-|-- data/
-|   `-- sample_maps/
-|       `-- simple_house.json
-|-- docs/
-|   |-- PRD.md
-|   |-- PLAN.md
-|   |-- TODO.md
-|   |-- PRD_ddpg_algorithm.md
-|   |-- PRD_simulator.md
-|   |-- SUMMARY_REPORT.md
-|   `-- PROMPT_LOG.md
-|-- results/
-|   |-- checkpoints/
-|   |-- metrics/
-|   |-- plots/
-|   `-- trajectories/
-|-- src/
-|   `-- robot_vacuum_ddpg/
-|       |-- __init__.py
-|       |-- main.py
-|       |-- sdk/
-|       |   |-- __init__.py
-|       |   `-- sdk.py
-|       |-- simulator/
-|       |   |-- __init__.py
-|       |   |-- environment.py
-|       |   |-- geometry.py
-|       |   |-- map_loader.py
-|       |   |-- rewards.py
-|       |   |-- robot.py
-|       |   `-- sensors.py
-|       |-- ddpg/
-|       |   |-- __init__.py
-|       |   |-- actor.py
-|       |   |-- agent.py
-|       |   |-- critic.py
-|       |   |-- noise.py
-|       |   |-- replay_buffer.py
-|       |   `-- soft_update.py
-|       |-- training/
-|       |   |-- __init__.py
-|       |   |-- metrics.py
-|       |   `-- trainer.py
-|       |-- visualization/
-|       |   |-- __init__.py
-|       |   |-- plots.py
-|       |   `-- trajectory.py
-|       `-- shared/
-|           |-- __init__.py
-|           |-- config.py
-|           |-- paths.py
-|           |-- random_seed.py
-|           `-- version.py
-`-- tests/
-    |-- unit/
-    `-- integration/
-```
-
-The scaffold, simulator, SDK, shared utilities, sample map, visualization, and tests now exist. Files shown under `ddpg/` and most files under `training/` remain future work; their package directories contain no DDPG or training logic yet.
-
-## Architecture
-
-The CLI delegates the implemented random-policy use case to a single SDK facade. The SDK coordinates the simulator and trajectory visualization. Future DDPG and trainer modules will join through the documented state/action contract; no DDPG logic exists in the current milestone.
-
-```text
-CLI
- |
- v
-VacuumSDK  ---> training orchestration ---> metrics and plots
- |                    |                         |
- +--> simulator <-----+---- transitions ----> DDPG agent
-       ^                                         |
-       `------------ state/action contract ------'
-```
-
-See [docs/PRD.md](docs/PRD.md), [docs/PRD_simulator.md](docs/PRD_simulator.md), and [docs/PRD_ddpg_algorithm.md](docs/PRD_ddpg_algorithm.md) for the formal contracts.
-
-## Installation and current commands
-
-Python 3.11 or newer and `uv` are required:
+Install the locked runtime and development environment:
 
 ```bash
 uv sync --extra dev
-uv run robot-vacuum --max-steps 100 --seed 42
+```
+
+On machines with an institutional certificate chain, use:
+
+```bash
+uv sync --extra dev --system-certs
+```
+
+## Quick demo
+
+Generate the complete random-policy evidence bundle:
+
+```bash
+uv run robot-vacuum demo --max-steps 150 --seed 42
+```
+
+Equivalent convenience alias:
+
+```bash
+uv run robot-vacuum make-demo --max-steps 150 --seed 42
+```
+
+Run the small DDPG integration check and evaluate its checkpoint:
+
+```bash
+uv run robot-vacuum train --config config/smoke_training.json
+uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt
+```
+
+For the configured 200-episode baseline, use `uv run robot-vacuum train --config config/default_training.json`. Runtime and learning quality depend on the machine and seed; this repository does not claim that the baseline converges.
+
+The CLI delegates to `VacuumSDK`, runs one deterministic seeded random-policy episode, and prints the resulting metrics and paths. This demonstrates simulator integration—not policy learning.
+
+## GUI demo
+
+Launch the local Python-only Tkinter interface:
+
+```bash
+uv run robot-vacuum gui
+```
+
+The GUI provides:
+
+- Reset, single random step, scheduled episode run, and pause/stop controls.
+- Seed, maximum-step, map-path, and display-delay inputs.
+- Map boundaries, rectangular obstacles, cleaned cells, trajectory, collision attempts, robot position, and heading.
+- Current step, reward, collisions, coverage, action, state-vector length, and saved-artifact status.
+- **Save screenshot** and **Generate report** actions through the SDK.
+
+The screenshot action writes `results/screenshots/gui_demo.png`. For portability, this is a Matplotlib rendering of the GUI's current map view—not an operating-system capture of the surrounding window chrome. See the [GUI guide](docs/GUI_GUIDE.md).
+
+## Generated artifacts
+
+Runtime outputs are reproducible, generated locally, and intentionally ignored by Git. Run the commands above before opening the image previews.
+
+| Artifact | Path | Generation | Status |
+|---|---|---|---|
+| Random-policy trajectory | `results/trajectories/random_policy.png` | Quick demo command | Implemented; generated locally |
+| Random-policy metrics | `results/metrics/random_policy_metrics.json` | Quick demo command | Implemented; generated locally |
+| Random-policy report | `results/reports/random_policy_report.md` | Quick demo command | Implemented; generated locally |
+| GUI map-view screenshot | `results/screenshots/gui_demo.png` | GUI **Save screenshot** button | Implemented; generated locally |
+| Learning curve | `results/plots/learning_curve.png` | Smoke/default training command | Implemented; generated locally |
+| Critic-loss graph | `results/plots/critic_loss.png` | Smoke/default training command | Implemented; generated locally |
+| Evaluation trajectory | `results/trajectories/evaluation_trajectory.png` | Evaluation command | Implemented; generated locally |
+| Training metrics | `results/metrics/training_metrics.json` | Smoke/default training command | Implemented; generated locally |
+| Actor checkpoint | `results/checkpoints/best_actor.pt` | Smoke/default training command | Implemented; generated locally |
+
+<details>
+<summary><strong>Local image previews — generate the artifacts first</strong></summary>
+
+The following relative image references resolve only after running their documented generation commands. They are generated locally, ignored by Git, and not claimed to be committed assets.
+
+### Random-policy trajectory
+
+![Random policy trajectory](results/trajectories/random_policy.png)
+
+### GUI map-view screenshot
+
+![GUI demo](results/screenshots/gui_demo.png)
+
+### DDPG smoke learning curve
+
+![DDPG smoke learning curve](results/plots/learning_curve.png)
+
+### DDPG smoke critic loss
+
+![DDPG smoke critic loss](results/plots/critic_loss.png)
+
+### DDPG smoke-checkpoint evaluation
+
+![DDPG evaluation trajectory](results/trajectories/evaluation_trajectory.png)
+
+</details>
+
+The two-episode curves and evaluation trajectory are integration evidence, not convergence evidence. See the [artifact index](docs/ARTIFACT_INDEX.md) for regeneration commands.
+
+## DDPG architecture
+
+The implemented DDPG flow is:
+
+```text
+state ──> Actor μ(s) ──tanh──> continuous action [-1, 1]
+  │                              │
+  └──────────────┬───────────────┘
+                 v
+            Critic Q(s, a)
+
+environment transitions ──> replay buffer ──> mini-batch updates
+                                      │
+                         target actor + target critic
+                                      │
+                     soft update: τ online + (1-τ) target
+```
+
+Implemented algorithm properties:
+
+- Actor maps the environment's state dimension to two continuous controls with final `tanh`.
+- Critic consumes concatenated state and action and returns one scalar Q-value.
+- Gaussian noise applies during training only; evaluation is deterministic.
+- Replay samples uniform mini-batches after warm-up.
+- Critic minimizes terminal-masked Bellman MSE.
+- Actor minimizes `-critic(state, actor(state)).mean()`.
+- Target actor and critic update softly with configurable `tau`.
+
+The full mathematical and test contract is in [docs/PRD_ddpg_algorithm.md](docs/PRD_ddpg_algorithm.md).
+
+## Simulator design
+
+The simulator is framework-free and independent of the GUI:
+
+```text
+CLI / Tkinter GUI
+        |
+        v
+   VacuumSDK
+        |
+        v
+   DemoSession ─────────> reports and visualization
+        |
+        v
+VacuumEnvironment
+   |-- validated configuration
+   |-- robot kinematics and action clipping
+   |-- swept boundary/obstacle collision
+   |-- normalized distance sensors
+   |-- first-visit CoverageGrid
+   |-- normalized observation assembly
+   `-- decomposed reward and episode lifecycle
+```
+
+Default action:
+
+```text
+[normalized_linear_command, normalized_angular_command] ∈ [-1, 1]²
+```
+
+Default state order:
+
+```text
+7 normalized rays
++ normalized linear/angular velocity
++ sin(theta), cos(theta)
++ coverage ratio
++ collision/contact flag
+= 13 values
+```
+
+The native map schema supports rectangular bounds, rectangular obstacles, and a start pose. The loader interface is an extension point toward HouseExpo, but the included `simple_house.json` is project-native data.
+
+## Configuration
+
+`pyproject.toml` is the dependency and tool-configuration source of truth; `uv.lock` is tracked. No `requirements.txt` is used.
+
+| File | Purpose |
+|---|---|
+| `config/default_simulator.json` | Geometry, dynamics, sensors, coverage, termination, and reward defaults |
+| `config/default_training.json` | 200-episode baseline DDPG hyperparameters |
+| `config/smoke_training.json` | Two-episode integration configuration |
+| `data/sample_maps/simple_house.json` | Native sample floor map |
+
+Important simulator defaults:
+
+| Parameter | Value |
+|---|---:|
+| Time step | `0.1` |
+| Robot radius | `0.2` |
+| Max linear speed | `1.0` |
+| Max angular speed | `2.0` |
+| Sensor rays | `7` |
+| Sensor max range | `3.0` |
+| Target coverage | `0.9` |
+| Episode limit | `500` steps |
+
+Training metrics record the resolved `actor_lr`, `critic_lr`, `gamma`, `tau`, `noise_sigma`, `batch_size`, `replay_buffer_size`, network sizes, seed, duration, and generated paths.
+
+## Testing and quality gates
+
+```bash
 uv run pytest
+uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
 uv run ruff check .
 ```
 
-The CLI runs one continuous random-policy episode and writes `results/trajectories/random_policy.png`. The following commands remain planned and intentionally unavailable until DDPG is implemented:
+Audited result:
 
-```bash
-uv run robot-vacuum train --config config/default_training.json
-uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt
-uv run robot-vacuum train --config config/smoke_training.json
-```
-
-The smoke configuration will use two episodes, 20 steps per episode, batch size 16, warm-up 16, and seed 42. It verifies integration and artifact generation only; it is not evidence of convergence.
-
-## Planned result artifacts
-
-| Artifact | Path | Status |
-|---|---|---|
-| Random-policy trajectory | `results/trajectories/random_policy.png` | Generated by current CLI; ignored by Git |
-| Cumulative reward curve | `results/plots/learning_curve.png` | Pending DDPG training |
-| Critic loss curve | `results/plots/critic_loss.png` | Pending DDPG training |
-| Evaluation trajectory | `results/trajectories/evaluation_trajectory.png` | Pending trained-policy evaluation |
-| Machine-readable metrics | `results/metrics/training_metrics.json` | Pending DDPG training |
-
-No generated result is claimed until the files exist and the final audit records the command used to create them.
-
-## Exercise 05 compliance at a glance
-
-| Exercise requirement | Planned evidence |
+| Gate | Result |
 |---|---|
-| DDPG rather than DQN, PPO, or a Q-table | Project-owned PyTorch actor-critic implementation and tests |
-| Continuous action in `[-1, 1]` | Two-value linear/angular actor output with final `tanh` and defensive clipping |
-| Continuous state | Normalized ray distances, velocity, heading, coverage, and contact flag |
-| No ready-made simulator | Custom geometry, kinematics, sensing, collision, coverage, and reward modules |
-| Actor and critic | Separate, directly inspectable network modules |
-| Target networks and soft updates | Target actor/critic plus exact `tau` interpolation test |
-| Replay and exploration | Fixed-capacity replay buffer and training-only Gaussian noise |
-| Required graphs | Reward, critic-loss, and map trajectory PNG files under `results/` |
-| HouseExpo intent | Loader abstraction and honest release-1 sample-map limitation |
-| Professional submission | uv lockfile, SDK facade, configs, type hints, docstrings, pytest, Ruff, and prompt log |
+| Tests | 19 passed |
+| Coverage | 88.23% against an 85% gate |
+| Ruff | Zero violations |
+| Module size | Focused domain modules; largest SDK facade is 175 nonblank, non-comment lines |
+| Forbidden frameworks | None in dependencies or executable imports |
+| Secrets | None; `.env-example` documents that no secrets are required |
 
-The canonical DDPG configuration names are reserved in `config/default_training.json`; their use by an agent remains pending.
+Thin CLI/Tkinter rendering wrappers are excluded from aggregate coverage; GUI-independent view-model conversion is unit tested and GUI initialization has been smoke checked.
 
-| Configuration key | Planned default |
-|---|---:|
-| `actor_lr` | `0.0001` |
-| `critic_lr` | `0.001` |
-| `gamma` | `0.99` |
-| `tau` | `0.005` |
-| `noise_sigma` | `0.20` |
-| `batch_size` | `64` |
-| `replay_buffer_size` | `100000` |
-
-## Quality gates
-
-- `uv.lock` exists and must be committed with this milestone; `pyproject.toml` is the dependency source of truth.
-- No `requirements.txt` is used as a second dependency source.
-- `uv run pytest` passes with at least 85% coverage for `src/` where practical for this exercise.
-- `uv run ruff check .` reports zero violations.
-- Environment actions are clipped to `[-1, 1]`; future actor outputs must meet the same bound.
-- The simulator is project-owned and imports no forbidden environment framework.
-- A seeded random-policy run creates a trajectory; DDPG smoke training and its required plots remain pending.
-- The summary report links exact code locations and records actual hyperparameters and limitations.
-
-## Documentation
+## Reports and documentation
 
 - [Product requirements](docs/PRD.md)
 - [Implementation plan](docs/PLAN.md)
-- [Tracked work](docs/TODO.md)
-- [DDPG specification](docs/PRD_ddpg_algorithm.md)
-- [Simulator specification](docs/PRD_simulator.md)
+- [Tracked work and completion state](docs/TODO.md)
+- [DDPG algorithm requirements](docs/PRD_ddpg_algorithm.md)
+- [Simulator requirements](docs/PRD_simulator.md)
 - [Summary report](docs/SUMMARY_REPORT.md)
-- [AI prompt log](docs/PROMPT_LOG.md)
+- [Final submission audit](docs/FINAL_AUDIT.md)
+- [Generated artifact index](docs/ARTIFACT_INDEX.md)
+- [Coding style report](docs/STYLE_REPORT.md)
+- [Demo guide](docs/DEMO_GUIDE.md)
+- [GUI guide](docs/GUI_GUIDE.md)
+- [Results guide](docs/RESULTS_GUIDE.md)
+- [AI prompt and decision log](docs/PROMPT_LOG.md)
 
-## Academic honesty and limitations
+## Known limitations
 
-The documentation and later implementation are AI-assisted; material prompts and decisions are recorded in `docs/PROMPT_LOG.md`. The planned sample-map loader is an extension point toward HouseExpo, not a claim of full HouseExpo support. Training quality can vary by seed and compute budget, so functional correctness and saved evidence are separated from any claim of convergence.
+- The recorded DDPG evidence is a two-episode, 40-step smoke run. It proves integration, not convergence.
+- The smoke checkpoint's deterministic evaluation reached only 0.89% coverage in 500 steps; it is not a useful trained policy.
+- A longer baseline has not been run or interpreted, and no multi-seed performance claim is made.
+- Physics are simplified and deterministic; sensors are perfect and localization is known.
+- Obstacles are axis-aligned rectangles; coverage is a grid approximation.
+- Full HouseExpo parsing and polygon geometry are not implemented.
+- The GUI screenshot fallback contains the map view rather than Tkinter controls/window chrome.
+
+## Future work / final improvements
+
+1. Run and compare longer multi-seed experiments before making any convergence claim.
+2. Add reward/noise sensitivity analysis and checkpoint-selection evaluation metrics.
+3. Add terminal-mask and checkpoint round-trip tests beyond the current required suite.
+4. Add a tested HouseExpo polygon adapter without changing the simulator's public state/action contract.
+5. Review and intentionally commit the implementation and generated-evidence policy before submission.
+
+## Academic transparency
+
+The project and documentation are AI-assisted. Material prompts and decisions are recorded in [docs/PROMPT_LOG.md](docs/PROMPT_LOG.md). Generated evidence is separated from planned evidence, and no DDPG convergence or trained-policy result is claimed without corresponding code and files.
