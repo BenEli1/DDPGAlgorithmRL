@@ -20,8 +20,8 @@ Observed results:
 
 - uv resolved 50 packages and installed the locked PyTorch runtime successfully.
 - Ruff passed with zero violations.
-- Pytest passed all 19 tests.
-- Coverage passed the configured 85% gate at 88.08%.
+- Pytest passed all 20 tests.
+- Coverage passed the configured 85% gate at 88.48%.
 - The seeded demo generated a PNG, JSON metrics, and Markdown report.
 - A Tkinter create/update/destroy smoke check initialized the GUI successfully.
 - The GUI screenshot fallback generated a readable PNG with map, path, cleaned cells, robot position, and heading.

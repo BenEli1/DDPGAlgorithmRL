@@ -4,6 +4,14 @@ This page is the fastest review path through the submission. The images below ar
 
 ## 1. Demo evidence
 
+### Live simulator walkthrough
+
+Command: `uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3`
+
+![Live random-policy simulator](../assets/evidence/random_policy_demo.gif)
+
+The animation is generated from immutable SDK snapshots and contains no desktop pixels. It demonstrates state progression, path history, cleaned cells, collisions, reward, and coverage in motion.
+
 ### Random-policy simulator demonstration
 
 Command: `uv run robot-vacuum demo --max-steps 150 --seed 42`
@@ -40,7 +48,7 @@ The two-episode run produced 25 optimizer updates. Evaluation reached only 0.89%
 |---|---|
 | Project planning | [PRD](PRD.md), [implementation plan](PLAN.md), [TODO](TODO.md), simulator and DDPG PRDs |
 | Code documentation | Typed modules, design-focused docstrings, [README](../README.md), demo/GUI/results guides |
-| Testing and quality | 19 tests, 88.08% coverage, Ruff, and [automated GitHub workflow](../.github/workflows/quality.yml) |
+| Testing and quality | 20 tests, 88.48% coverage, Ruff, and [automated GitHub workflow](../.github/workflows/quality.yml) |
 | UI and user experience | SDK-backed Tkinter GUI, committed map-view image, [GUI guide](GUI_GUIDE.md) |
 | Configuration and security | `pyproject.toml`, locked `uv.lock`, versioned JSON configuration, `.env-example`, and the [privacy/security policy](PRIVACY_SECURITY.md) |
 | Research and analysis | [Experiment log](EXPERIMENTS.md) with hypotheses, observations, conclusions, and next experiments |

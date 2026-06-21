@@ -54,3 +54,18 @@ def test_random_episode_creates_trajectory_png(tmp_path: Path) -> None:
     assert "# Random-Policy Simulator Demo Report" in report
     assert "not a trained DDPG policy" in report
     assert metrics["command"] in report
+
+
+def test_record_random_episode_creates_gif(tmp_path: Path) -> None:
+    output = tmp_path / "demo.gif"
+
+    result = VacuumSDK().record_random_episode(
+        CONFIG_DIR / "default_simulator.json",
+        output,
+        seed=7,
+        max_steps=4,
+        frame_stride=1,
+    )
+
+    assert result == output
+    assert output.read_bytes().startswith(b"GIF89a")

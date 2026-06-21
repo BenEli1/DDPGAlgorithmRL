@@ -15,7 +15,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "command",
         nargs="?",
-        choices=("demo", "make-demo", "gui", "train", "evaluate"),
+        choices=("demo", "make-demo", "record-demo", "gui", "train", "evaluate"),
         default="demo",
         help="Generate evidence, train/evaluate DDPG, or open the local GUI",
     )
@@ -55,6 +55,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=RESULTS_DIR / "checkpoints" / "best_actor.pt",
         help="DDPG checkpoint used by evaluate",
     )
+    parser.add_argument(
+        "--animation-output",
+        type=Path,
+        default=RESULTS_DIR / "animations" / "random_policy_demo.gif",
+        help="Animated simulator GIF destination",
+    )
+    parser.add_argument("--frame-stride", type=int, default=3)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-steps", type=int, default=100)
     return parser
@@ -70,6 +77,16 @@ def main() -> int:
         return 0
     sdk = VacuumSDK()
     try:
+        if args.command == "record-demo":
+            path = sdk.record_random_episode(
+                args.config,
+                args.animation_output,
+                seed=args.seed,
+                max_steps=args.max_steps,
+                frame_stride=args.frame_stride,
+            )
+            print(f"animation={path}")
+            return 0
         if args.command == "train":
             result = sdk.train(args.config, args.simulator_config)
             print(f"episodes={result.episodes} updates={result.updates}")
