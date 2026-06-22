@@ -1,6 +1,6 @@
 # Demo Guide
 
-This guide describes only functionality that exists at revision `bc88d59`. The current demo runs the custom simulator with a seeded random continuous policy. It is not DDPG training and is not evidence of convergence.
+This guide describes the current `main` branch. The demo runs the custom simulator with a seeded random continuous policy. It is not DDPG training and is not evidence of convergence.
 
 ## Setup
 
@@ -68,9 +68,11 @@ It proves simulator and visualization integration. Because actions are random, s
 ## Current limitations
 
 - The trajectory PNG is generated locally and ignored by Git, so a clean clone must run the command to create it.
-- The GUI screenshot is a portable Matplotlib map-view fallback, not a capture of window chrome.
-- No `train`, `evaluate`, or `plot` subcommand exists.
-- No DDPG checkpoint or trained-policy result exists.
+- The GUI screenshot is a portable Matplotlib reproduction of controls, map, and status from
+  SDK data, not a capture of the desktop or window chrome.
+- DDPG training and deterministic evaluation are separate CLI workflows; the seeded random
+  demo must not be presented as learned-policy evidence.
+- The committed DDPG record is only a two-episode smoke run and does not prove convergence.
 
 ## Current artifact flow
 
@@ -78,10 +80,12 @@ The implemented demo flow is:
 
 1. Run `uv run robot-vacuum demo --max-steps 150 --seed 42` or the equivalent `make-demo` alias.
 2. Inspect the trajectory PNG, JSON metrics, and Markdown report under `results/`.
-3. After a GUI exists, capture it at `results/screenshots/gui_demo.png`.
-4. After DDPG exists, run smoke training for integration evidence and a separately documented evaluation for learned-policy evidence.
+3. Run the GUI and select **Save screenshot** to create `results/screenshots/gui_demo.png`.
+4. Run smoke training and deterministic evaluation using the commands in `RESULTS_GUIDE.md`;
+   interpret them as integration evidence only.
 
-The planned GUI must call the SDK and display `DemoResult`; it must not reproduce kinematics, collision, coverage, reward, or plotting logic.
+The implemented GUI calls the SDK and displays immutable `DemoSnapshot` values; it does not
+reproduce kinematics, collision, coverage, reward, or reporting logic.
 
 ## Verification commands
 
@@ -91,7 +95,7 @@ uv run pytest
 uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
 ```
 
-At the live-demo audit these pass with 20 tests and 88.48% coverage under the documented coverage policy.
+At the GUI-preview audit these pass with 21 tests and 89.17% coverage under the documented coverage policy.
 
 ## Troubleshooting
 

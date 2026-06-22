@@ -12,6 +12,7 @@ from robot_vacuum_ddpg.shared.random_seed import seed_everything
 from robot_vacuum_ddpg.simulator.environment import EnvironmentConfig, VacuumEnvironment
 from robot_vacuum_ddpg.simulator.map_loader import JsonMapLoader
 from robot_vacuum_ddpg.visualization.animation import AnimationFrame, save_trajectory_animation
+from robot_vacuum_ddpg.visualization.gui_preview import GuiPreviewData, save_gui_preview
 from robot_vacuum_ddpg.visualization.trajectory import save_trajectory_plot
 
 
@@ -133,6 +134,37 @@ class VacuumSDK:
             collision_points=session.collision_poses,
             cleaned_cells=session.environment.cleaned_cells,
         )
+
+    def save_gui_preview(
+        self,
+        session: DemoSession,
+        output_path: Path,
+        map_path: Path | None = None,
+    ) -> Path:
+        """Save controls, map, and status without reading desktop pixels."""
+        snapshot = session.snapshot()
+        display_path = self._display_path(output_path)
+        data = GuiPreviewData(
+            seed=session.seed,
+            max_steps=session.max_steps,
+            map_path=self._display_path(map_path) if map_path else snapshot.map_name,
+            step=snapshot.step,
+            total_reward=snapshot.total_reward,
+            collisions=snapshot.collisions,
+            coverage_percent=snapshot.coverage_percent,
+            current_action=snapshot.current_action,
+            state_vector_length=snapshot.state_vector_length,
+            map_name=snapshot.map_name,
+            bounds=snapshot.bounds,
+            obstacles=snapshot.obstacles,
+            robot_position=snapshot.robot_position,
+            robot_heading=snapshot.robot_heading,
+            trajectory=snapshot.trajectory,
+            collision_points=snapshot.collision_points,
+            cleaned_cells=snapshot.cleaned_cells,
+            artifact_path=display_path,
+        )
+        return save_gui_preview(data, output_path)
 
     def save_demo_artifacts(
         self,

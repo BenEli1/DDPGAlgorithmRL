@@ -62,8 +62,8 @@ The report writer does not recalculate rewards, collisions, coverage, or positio
 Verified:
 
 ```text
-20 tests passed
-88.48% aggregate coverage
+21 tests passed
+89.17% aggregate coverage
 0 Ruff violations
 ```
 
@@ -80,5 +80,6 @@ The coverage configuration excludes `main.py` and Tkinter/canvas wrappers becaus
 
 - DDPG packages now contain the verified actor, critic, replay, noise, targets, updates, training, evaluation, and artifact pipeline.
 - Smoke results remain integration evidence only; no unsupported convergence claim is made.
-- The GUI fallback remains a map-view image rather than pretending to be a cross-platform capture of window chrome.
+- The GUI preview reproduces application controls, map, and status from SDK data without
+  pretending to capture cross-platform window chrome.
 - Full HouseExpo support remains out of scope until a real adapter and polygon tests exist.

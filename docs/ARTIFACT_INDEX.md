@@ -9,7 +9,7 @@ Generated runtime artifacts live under `results/`. They are intentionally ignore
 | Image | `results/trajectories/random_policy.png` | `uv run robot-vacuum demo --max-steps 150 --seed 42` | Generated locally; ignored |
 | Metrics | `results/metrics/random_policy_metrics.json` | `uv run robot-vacuum demo --max-steps 150 --seed 42` | Generated locally; ignored |
 | Report | `results/reports/random_policy_report.md` | `uv run robot-vacuum demo --max-steps 150 --seed 42` | Generated locally; ignored |
-| Image | `results/screenshots/gui_demo.png` | Run `uv run robot-vacuum gui`, then click **Save screenshot** | Generated locally; ignored |
+| Image | `results/screenshots/gui_demo.png` | Run `uv run robot-vacuum gui`, then click **Save screenshot** | Generated locally; full-layout reviewed copy committed as `assets/evidence/gui_full_window.png` |
 | Animation | `results/animations/random_policy_demo.gif` | `uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3` | Generated locally; reviewed copy committed under `assets/evidence/` |
 | Image | `results/plots/learning_curve.png` | `uv run robot-vacuum train --config config/smoke_training.json` | Generated locally; ignored |
 | Image | `results/plots/critic_loss.png` | `uv run robot-vacuum train --config config/smoke_training.json` | Generated locally; ignored |
@@ -24,7 +24,10 @@ Generated runtime artifacts live under `results/`. They are intentionally ignore
 - **Random-policy trajectory:** custom simulator, continuous movement, map rendering, cleaned cells, collision attempts, and heading visualization work together.
 - **Random-policy metrics:** the SDK records the seed, requested/executed steps, reward, collisions, coverage, final pose, map, and artifact paths.
 - **Random-policy report:** human-readable formatting is generated from the same metrics record rather than recomputing outcomes.
-- **GUI screenshot:** the GUI's current map state can be saved portably through the SDK Matplotlib fallback. It is not a capture of window controls.
+- **GUI map view:** `assets/evidence/gui_map_view.png` isolates simulator rendering.
+- **GUI full layout:** `assets/evidence/gui_full_window.png` reproduces controls, map, and
+  status from immutable session data. It is application-rendered, not a window-chrome capture.
+  `SCREENSHOTS.md` documents how to replace it with a reviewed manual window capture.
 
 - **DDPG plots/metrics/checkpoint:** the two-episode smoke run exercises replay, updates, serialization, and plotting.
 - **Evaluation trajectory:** the saved actor loads and runs without exploration noise.
@@ -46,5 +49,6 @@ These Markdown files are authored repository documentation, not generated runtim
 - `docs/SUMMARY_REPORT.md`
 - `docs/STYLE_REPORT.md`
 - `docs/FINAL_AUDIT.md`
+- `docs/SCREENSHOTS.md`
 
 Personal submission files and source course documents are intentionally excluded by generic PDF and office-document ignore rules. They are not project artifacts and must not be committed.

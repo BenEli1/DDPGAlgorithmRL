@@ -84,7 +84,7 @@ Simulator unit and integration tests pass without importing PyTorch or any forbi
 3. Added a Tkinter GUI with reset, random step, scheduled run, pause, screenshot, and report controls.
 4. Added GUI inputs for seed, maximum steps, map path, and display delay.
 5. Added canvas rendering for boundaries, obstacles, cleaned cells, collision attempts, trajectory, robot position, and heading.
-6. Added a portable Matplotlib map-view screenshot fallback at `results/screenshots/gui_demo.png`.
+6. Added a portable Matplotlib full-layout GUI preview at `results/screenshots/gui_demo.png`.
 7. Added GUI-independent coordinate/status tests; no display server is required by the test suite.
 
 ### Architecture gate

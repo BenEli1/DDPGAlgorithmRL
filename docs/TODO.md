@@ -84,7 +84,7 @@ Legend: `[ ]` pending, `[x]` verified complete. A task is checked only when its 
 - [x] Generate `results/reports/random_policy_report.md` from the same metrics record.
 - [x] Add `demo` and `make-demo` aliases for one-command artifact generation.
 - [x] Add an SDK-backed Tkinter GUI with reset, step, run, pause, screenshot, and report controls.
-- [x] Add a portable map-view screenshot fallback at `results/screenshots/gui_demo.png`.
+- [x] Add a privacy-safe full-layout GUI preview at `results/screenshots/gui_demo.png`.
 - [x] Test GUI-independent coordinate and status conversion.
 - [x] Generate `results/plots/learning_curve.png`.
 - [x] Generate `results/plots/critic_loss.png`.

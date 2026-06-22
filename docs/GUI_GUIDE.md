@@ -37,15 +37,25 @@ The canvas shows map boundaries, rectangular obstacles, cleaned cells, the traje
 
 ## Screenshot behavior
 
-Tkinter window capture is platform-dependent. The **Save screenshot** control therefore uses the SDK's Matplotlib renderer as a portable fallback and saves the current map view to:
+Tkinter window capture is platform-dependent and can expose unrelated desktop content. The
+**Save screenshot** control therefore uses the SDK's Matplotlib renderer to reproduce the
+application controls, map, and status from immutable session data. It saves to:
 
 ```text
 results/screenshots/gui_demo.png
 ```
 
-This image contains simulator visual evidence but not the surrounding buttons or operating-system window frame. It is generated and ignored by Git.
+This privacy-safe image contains the GUI inputs, controls, simulator view, and current status.
+It deliberately excludes the operating-system window frame and never reads desktop pixels.
+The generated result is ignored by Git; a reviewed copy is committed at
+`assets/evidence/gui_full_window.png` for GitHub display.
 
-![GUI map-view screenshot](../results/screenshots/gui_demo.png)
+![Application-rendered full GUI layout](../assets/evidence/gui_full_window.png)
+
+The separate `assets/evidence/gui_map_view.png` focuses on simulator rendering. To replace
+the full-layout artifact with a real, tightly cropped Tkinter window capture, follow
+[SCREENSHOTS.md](SCREENSHOTS.md); automatic window capture is not used because it was not
+reliable in the audited Windows session.
 
 ## Architecture
 

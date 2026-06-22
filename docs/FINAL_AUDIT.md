@@ -1,14 +1,17 @@
 # Final Submission Audit
 
-**Audit date:** 2026-06-21  
-**Baseline revision:** `bc88d59` (`origin/main`) plus current working-tree demo, GUI, reporting, and style changes  
+**Audit date:** 2026-06-23
+
+**Branch audited:** `main`, including the final GUI evidence, documentation, and cleanup pass
+
 **Verdict:** The custom simulator, SDK, local GUI, from-scratch DDPG pipeline, smoke evidence, documentation, packaging, and quality gates are implemented. Smoke training proves integration only; convergence remains unestablished.
 
 ## Verified commands
 
 ```bash
-uv sync --extra dev
+uv sync --extra dev --locked
 uv run robot-vacuum demo --max-steps 150 --seed 42
+uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3
 uv run robot-vacuum train --config config/smoke_training.json
 uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt
 uv run pytest
@@ -20,11 +23,11 @@ Observed results:
 
 - uv resolved 50 packages and installed the locked PyTorch runtime successfully.
 - Ruff passed with zero violations.
-- Pytest passed all 20 tests.
-- Coverage passed the configured 85% gate at 88.48%.
+- Pytest passed all 21 tests.
+- Coverage passed the configured 85% gate at 89.17%.
 - The seeded demo generated a PNG, JSON metrics, and Markdown report.
 - A Tkinter create/update/destroy smoke check initialized the GUI successfully.
-- The GUI screenshot fallback generated a readable PNG with map, path, cleaned cells, robot position, and heading.
+- The GUI evidence includes both the map export and a full application-layout rendering with controls and status.
 - Smoke training generated metrics, reward/loss plots, and a loadable checkpoint; deterministic evaluation generated a trajectory.
 
 On systems with an institutional certificate chain, use `--system-certs` for `uv sync` or set `UV_SYSTEM_CERTS=true` before `uv run` if an editable rebuild needs registry access.
@@ -103,16 +106,24 @@ These are intentionally ignored, not committed evidence. A clean clone regenerat
 - The DDPG record is a two-episode smoke run; its 0.89% evaluation coverage does not support convergence or useful-policy claims.
 - The simulator uses simplified deterministic kinematics, perfect sensors, rectangular obstacles, and grid-approximated coverage.
 - The native JSON map is not a HouseExpo record; full HouseExpo polygon support is not claimed.
-- The GUI screenshot is a portable Matplotlib rendering of the current map view, not a capture of Tkinter window chrome.
+- `gui_full_window.png` is a portable Matplotlib rendering of the controls, current map, and
+  status from immutable SDK data. It is transparently documented as application-rendered,
+  not an operating-system window capture; `SCREENSHOTS.md` gives the manual replacement flow.
 - GUI wrapper/rendering files are excluded from aggregate coverage; GUI-independent conversions are unit tested and window initialization is smoke checked manually.
-- Current working-tree changes still require an intentional review/commit before submission.
-- Personal submission files and source course documents remain local and are excluded by generic PDF and office-document ignore rules.
+- Course/source PDFs are absent from Git tracking; generic PDF and office-document ignore rules prevent re-addition while leaving local copies untouched.
+
+## GitHub About recommendation
+
+**Description:** Exercise 05 DDPG robotic vacuum simulator: custom 2D environment, PyTorch DDPG, GUI, reports, and evidence.
+
+**Topics:** `ddpg`, `reinforcement-learning`, `pytorch`, `robotic-vacuum`, `vibe-coding`, `bar-ilan`, `gui`, `simulation`
 
 ## Final sign-off commands
 
 ```bash
-uv sync --extra dev
+uv sync --extra dev --locked
 uv run robot-vacuum demo --max-steps 150 --seed 42
+uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3
 uv run robot-vacuum gui
 uv run robot-vacuum train --config config/smoke_training.json
 uv run robot-vacuum evaluate --checkpoint results/checkpoints/best_actor.pt

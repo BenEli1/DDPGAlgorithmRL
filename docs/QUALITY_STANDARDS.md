@@ -14,6 +14,8 @@ uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing
 
 The GitHub Actions workflow runs the same locked installation, Ruff check, test suite, and coverage gate on pushes and pull requests. It has read-only repository permissions.
 
+Final audit result (2026-06-23): 21 tests passed, branch-aware coverage was 89.17%, and Ruff reported zero violations.
+
 ## Design standards
 
 - The simulator owns geometry, reward, state, collision, and dynamics.

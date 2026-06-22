@@ -7,7 +7,8 @@ Generated files are evidence only when a documented command created them and the
 | Artifact | Expected path | Audited status |
 |---|---|---|
 | Random-policy trajectory | `results/trajectories/random_policy.png` | Implemented, generated, and visually inspected; ignored by Git |
-| GUI screenshot | `results/screenshots/gui_demo.png` | Implemented and generated locally; ignored by Git |
+| GUI full-layout export | `results/screenshots/gui_demo.png` | Implemented and generated locally; reviewed copy at `assets/evidence/gui_full_window.png` |
+| GUI map-view evidence | `assets/evidence/gui_map_view.png` | Reviewed and committed for simulator-rendering evidence |
 | Live simulator animation | `results/animations/random_policy_demo.gif` | Implemented; reviewed copy committed under `assets/evidence/` |
 | Simulation JSON report | `results/metrics/random_policy_metrics.json` | Implemented and generated; ignored by Git |
 | Simulation Markdown summary | `results/reports/random_policy_report.md` | Implemented and generated; ignored by Git |
@@ -26,12 +27,14 @@ results/
 |-- checkpoints/   # model and optimizer checkpoints
 |-- metrics/       # machine-readable JSON run records
 |-- plots/         # learning and loss curves
-|-- reports/       # generated human-readable run summaries (planned)
-|-- screenshots/   # GUI screenshots (planned)
+|-- reports/       # generated human-readable run summaries
+|-- screenshots/   # privacy-safe GUI previews
 `-- trajectories/  # random and evaluated robot paths
 ```
 
-Raw/generated results should remain under `results/`. If the submission must display images directly on GitHub, place reviewed copies under `assets/demo/` and label their originating command, seed, and source result path. Do not hand-edit graphs or copy a random-policy image under a trained-policy name.
+Raw/generated results should remain under `results/`. Reviewed copies displayed on GitHub
+live under `assets/evidence/` and retain their originating command, seed, and source result
+path. Do not hand-edit graphs or copy a random-policy image under a trained-policy name.
 
 ## Current simulator result
 

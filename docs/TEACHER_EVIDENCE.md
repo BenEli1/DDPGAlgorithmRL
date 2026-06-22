@@ -20,13 +20,23 @@ Command: `uv run robot-vacuum demo --max-steps 150 --seed 42`
 
 The plot shows the map boundary, obstacles, cleaned cells, ordered robot path, start/final pose, final heading, and collision attempts. This is simulator evidence, not DDPG evidence.
 
-### GUI map-view export
+### Local GUI and controls
 
 Command: `uv run robot-vacuum gui`, then select **Save screenshot**.
 
+Map-view export:
+
 ![GUI map view](../assets/evidence/gui_map_view.png)
 
-This is the GUI's application-generated map view. It intentionally excludes desktop/window chrome so the evidence is portable and cannot capture unrelated screen content. The GUI controls, status fields, and workflow are documented in [GUI_GUIDE.md](GUI_GUIDE.md).
+Full application layout:
+
+![Application-rendered full GUI layout](../assets/evidence/gui_full_window.png)
+
+The map view proves simulator rendering. The full-layout artifact shows the real GUI's inputs,
+six controls, map, robot heading, trajectory, cleaned cells, collisions, and status panel.
+It is generated from immutable application data and intentionally excludes desktop/window
+chrome. The GUI workflow and optional manual full-window capture are documented in
+[GUI_GUIDE.md](GUI_GUIDE.md) and [SCREENSHOTS.md](SCREENSHOTS.md).
 
 ### DDPG smoke evidence
 
@@ -48,8 +58,8 @@ The two-episode run produced 25 optimizer updates. Evaluation reached only 0.89%
 |---|---|
 | Project planning | [PRD](PRD.md), [implementation plan](PLAN.md), [TODO](TODO.md), simulator and DDPG PRDs |
 | Code documentation | Typed modules, design-focused docstrings, [README](../README.md), demo/GUI/results guides |
-| Testing and quality | 20 tests, 88.48% coverage, Ruff, and [automated GitHub workflow](../.github/workflows/quality.yml) |
-| UI and user experience | SDK-backed Tkinter GUI, committed map-view image, [GUI guide](GUI_GUIDE.md) |
+| Testing and quality | 21 tests, 89.17% coverage, Ruff, and [automated GitHub workflow](../.github/workflows/quality.yml) |
+| UI and user experience | SDK-backed Tkinter GUI, committed full-layout preview, [GUI guide](GUI_GUIDE.md) |
 | Configuration and security | `pyproject.toml`, locked `uv.lock`, versioned JSON configuration, `.env-example`, and the [privacy/security policy](PRIVACY_SECURITY.md) |
 | Research and analysis | [Experiment log](EXPERIMENTS.md) with hypotheses, observations, conclusions, and next experiments |
 | Version and AI workflow | Meaningful Git commits plus [AI prompt and decision log](PROMPT_LOG.md) |

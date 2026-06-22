@@ -110,12 +110,12 @@ class VacuumGUI:
         self.running = False
 
     def save_screenshot(self) -> None:
-        """Save a Matplotlib rendering of the current map view."""
+        """Save a portable rendering of the controls, map, and status."""
         if self.session is None:
             return
         path = RESULTS_DIR / "screenshots" / "gui_demo.png"
         try:
-            self.sdk.save_session_view(self.session, path)
+            self.sdk.save_gui_preview(self.session, path, Path(self.map_path.get()))
             self._refresh(self.session.snapshot(), str(path))
         except OSError as error:
             messagebox.showerror("Screenshot failed", str(error))

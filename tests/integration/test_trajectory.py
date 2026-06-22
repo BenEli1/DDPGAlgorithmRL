@@ -69,3 +69,19 @@ def test_record_random_episode_creates_gif(tmp_path: Path) -> None:
 
     assert result == output
     assert output.read_bytes().startswith(b"GIF89a")
+
+
+def test_sdk_creates_portable_gui_preview(tmp_path: Path) -> None:
+    output = tmp_path / "gui_preview.png"
+    sdk = VacuumSDK()
+    session = sdk.create_demo_session(
+        CONFIG_DIR / "default_simulator.json",
+        seed=7,
+        max_steps=4,
+    )
+    session.step_random()
+
+    result = sdk.save_gui_preview(session, output)
+
+    assert result == output
+    assert output.read_bytes().startswith(b"\x89PNG")

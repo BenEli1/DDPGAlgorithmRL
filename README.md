@@ -4,14 +4,14 @@ A project-owned continuous-control robot-vacuum simulator with a from-scratch Py
 
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB)
 ![uv locked](https://img.shields.io/badge/dependencies-uv%20locked-6E56CF)
-![Tests](https://img.shields.io/badge/tests-20%20passing-brightgreen)
-![Coverage](https://img.shields.io/badge/coverage-88.48%25-brightgreen)
+![Tests](https://img.shields.io/badge/tests-21%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-89.17%25-brightgreen)
 ![Ruff](https://img.shields.io/badge/Ruff-passing-brightgreen)
 ![DDPG](https://img.shields.io/badge/DDPG-smoke%20verified-blue)
 
 > **Honest result status:** the complete DDPG software path is implemented and smoke tested. The recorded run contains only two episodes and proves integration, not convergence or useful learned performance.
 
-## Live simulator demo
+## Live simulator demo — seeded random policy
 
 ![Live random-policy simulator demo](assets/evidence/random_policy_demo.gif)
 
@@ -21,14 +21,31 @@ This committed animation is rendered exclusively from immutable SDK snapshots. I
 uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3
 ```
 
+## Local GUI demo
+
+![Application-rendered full GUI layout](assets/evidence/gui_full_window.png)
+
+The repository includes a real Python-only Tkinter GUI—not a browser mock-up. The preview
+above is rendered from the same immutable SDK snapshot used by the window, so it safely
+documents the controls, map, trajectory, heading, cleaned cells, and live status without
+capturing the desktop or unrelated personal content.
+
+```bash
+uv run robot-vacuum gui
+```
+
+The GUI currently drives the seeded random-policy simulator for interactive inspection.
+DDPG training and deterministic checkpoint evaluation use the CLI and produce separate,
+honestly labelled evidence below.
+
 ## Reviewer map: assessment evidence
 
 | Assessment area | What is demonstrated | Direct evidence |
 |---|---|---|
 | **Project planning** | Requirements, phased implementation, acceptance criteria, risks, and tracked work | [PRD](docs/PRD.md), [plan](docs/PLAN.md), [TODO](docs/TODO.md) |
 | **Code documentation** | Typed package boundaries, design-focused docstrings, setup and operation guides | [DDPG PRD](docs/PRD_ddpg_algorithm.md), [simulator PRD](docs/PRD_simulator.md), [documentation index](#documentation-index) |
-| **Testing and quality** | 20 tests, 88.48% branch-aware coverage, linting, edge cases, and CI enforcement | [tests](tests), [quality workflow](.github/workflows/quality.yml), [quality policy](docs/QUALITY_STANDARDS.md) |
-| **UI and user experience** | Live animation, local GUI, controls, status panel, artifact export | [GUI guide](docs/GUI_GUIDE.md), [committed GUI map view](assets/evidence/gui_map_view.png) |
+| **Testing and quality** | 21 tests, 89.17% branch-aware coverage, linting, edge cases, and CI enforcement | [tests](tests), [quality workflow](.github/workflows/quality.yml), [quality policy](docs/QUALITY_STANDARDS.md) |
+| **UI and user experience** | Live animation, local GUI, controls, status panel, artifact export | [GUI guide](docs/GUI_GUIDE.md), [map view](assets/evidence/gui_map_view.png), [full GUI layout](assets/evidence/gui_full_window.png) |
 | **Configuration and security** | Locked dependencies, validated JSON configuration, no required secrets, generic personal-document exclusions | [configuration](#configuration-and-portability), [privacy/security policy](docs/PRIVACY_SECURITY.md) |
 | **Research and analysis** | Explicit questions, hypotheses, observations, conclusions, and next experiment matrix | [experiment log](docs/EXPERIMENTS.md), [recorded metrics](assets/evidence/smoke_training_metrics.json) |
 | **Version management** | Git milestones, PR-based delivery, and visible AI-assisted decision history | [prompt and decision log](docs/PROMPT_LOG.md), [final audit](docs/FINAL_AUDIT.md) |
@@ -108,9 +125,19 @@ The Python-only GUI is a thin wrapper over `VacuumSDK`; it does not duplicate si
 - **Map view:** boundary, rectangular obstacles, cleaned cells, path, collision attempts, robot pose and heading.
 - **Status:** step, reward, collisions, coverage, current action, state-vector length, last artifact.
 
+Map export (simulator behavior):
+
 ![GUI map-view export](assets/evidence/gui_map_view.png)
 
-The committed image is the GUI's portable application-generated map export, not a desktop or window-chrome capture.
+Full application layout (controls and status evidence):
+
+![Application-rendered full GUI layout](assets/evidence/gui_full_window.png)
+
+The full-layout image is generated from immutable GUI session data; it is not an
+operating-system window capture. The **Save screenshot** button writes the same privacy-safe
+layout to `results/screenshots/gui_demo.png`. For an actual window-chrome capture, follow the
+manual, tightly cropped workflow in [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md) and replace
+`assets/evidence/gui_full_window.png` after reviewing it for personal content.
 
 ## Architecture and extensibility
 
@@ -221,8 +248,8 @@ Current audited result:
 
 | Gate | Result |
 |---|---|
-| Tests | 20 passed |
-| Coverage | 88.48%; configured minimum is 85% |
+| Tests | 21 passed |
+| Coverage | 89.17%; configured minimum is 85% |
 | Ruff | Passed with zero violations |
 | CI | Runs locked sync, Ruff, pytest, and coverage on pushes and pull requests |
 
@@ -268,6 +295,7 @@ See [docs/ARTIFACT_INDEX.md](docs/ARTIFACT_INDEX.md) for exact commands and comm
 | Document | Purpose |
 |---|---|
 | [Teacher Evidence Pack](docs/TEACHER_EVIDENCE.md) | Fast visual and rubric review |
+| [Screenshot Guide](docs/SCREENSHOTS.md) | Committed visual evidence and safe full-window capture workflow |
 | [PRD](docs/PRD.md) | Product scope and acceptance criteria |
 | [Implementation Plan](docs/PLAN.md) | Phases, gates, dependencies, and risks |
 | [TODO](docs/TODO.md) | Verified completion state and remaining work |
@@ -289,7 +317,7 @@ See [docs/ARTIFACT_INDEX.md](docs/ARTIFACT_INDEX.md) for exact commands and comm
 - Results currently cover one native rectangular map and one recorded seed.
 - Physics and sensing are deterministic simplifications; coverage is grid approximated.
 - Full HouseExpo polygon parsing is not implemented.
-- The portable GUI evidence shows the map view rather than operating-system window chrome.
+- The committed full-layout GUI evidence is application-rendered and does not show operating-system window chrome; a reviewed manual capture can replace it using `docs/SCREENSHOTS.md`.
 
 Next work should prioritize multi-seed baselines, reward/noise sensitivity, held-out map evaluation, explicit success thresholds, and a tested HouseExpo adapter.
 

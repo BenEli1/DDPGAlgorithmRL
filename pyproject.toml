@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "robot-vacuum-ddpg"
 version = "1.0.0"
-description = "Custom 2D robotic vacuum simulator prepared for a future DDPG agent"
+description = "Custom 2D robotic vacuum simulator with a from-scratch PyTorch DDPG smoke pipeline"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

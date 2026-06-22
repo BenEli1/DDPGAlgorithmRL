@@ -21,7 +21,7 @@ The current PRD was drafted from all four local sources. The exercise explicitly
 
 ### Current implementation milestone
 
-The project scaffold and custom simulator requirements FR-1 through FR-4 are implemented, together with the simulator portion of FR-8 and FR-9. The CLI currently runs a random policy only and saves a trajectory plot. FR-5 and FR-6, trained-policy evaluation, reward/critic-loss graphs, checkpoints, and training metrics are still planned. No DDPG implementation or training result is claimed.
+The custom simulator, SDK, CLI, GUI, from-scratch PyTorch DDPG pipeline, checkpoint evaluation, plots, metrics, and reports are implemented. The committed two-episode run is smoke evidence for software integration only; no convergence or useful-policy result is claimed.
 
 ## 4. Goals
 

@@ -2,7 +2,7 @@
 
 ## Report status
 
-This report records the verified implementation state on 2026-06-21. The custom simulator, random-policy demo, SDK, Tkinter GUI, from-scratch PyTorch DDPG pipeline, smoke training, checkpoint evaluation, plots, and automated tests are implemented.
+This report records the verified implementation state on 2026-06-23. The custom simulator, random-policy demo, SDK, Tkinter GUI, from-scratch PyTorch DDPG pipeline, smoke training, checkpoint evaluation, plots, and automated tests are implemented.
 
 The recorded DDPG run used only two episodes and 40 environment steps. It proves that data collection, replay, gradient updates, targets, checkpointing, loading, metrics, plotting, and deterministic evaluation work together. It does **not** prove convergence or useful learned behavior.
 
@@ -109,9 +109,9 @@ A meaningful empirical result requires a longer budget, multiple seeds, consiste
 
 | Check | Result |
 |---|---|
-| `uv sync --extra dev --system-certs` | Passed; lockfile resolved with PyTorch |
-| `uv run pytest` | 19 passed |
-| `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | 20 passed; 88.48%; 85% gate passed |
+| `uv sync --extra dev --locked` | Passed; 50 locked packages resolved |
+| `uv run pytest` | 21 passed |
+| `uv run pytest --cov=robot_vacuum_ddpg --cov-report=term-missing` | 21 passed; 89.17%; 85% gate passed |
 | `uv run ruff check .` | Passed; zero violations |
 | Smoke training CLI | Passed; four training artifacts generated |
 | Evaluation CLI | Passed; trajectory generated |
@@ -125,4 +125,5 @@ Required DDPG tests cover actor shape/range, critic shape, replay shapes and cop
 - Results cover one map and one recorded seed.
 - Full HouseExpo polygon parsing is not implemented.
 - Physics and sensing are deterministic simplifications.
-- The GUI screenshot fallback renders the map view, not operating-system window chrome.
+- The GUI screenshot renders controls, map, and status from immutable SDK data without
+  capturing the desktop or operating-system window chrome.
