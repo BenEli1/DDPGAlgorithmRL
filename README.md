@@ -17,6 +17,9 @@ A project-owned continuous-control robot-vacuum simulator with a from-scratch Py
 
 This committed animation is rendered exclusively from immutable SDK snapshots. It shows movement, trajectory history, cleaned cells, collision attempts, step count, cumulative reward, and coverage. It never captures desktop pixels. The policy is seeded and random, so the animation demonstrates the simulator rather than trained behavior.
 
+If GitHub shows the animation with a play button or a still first frame, open the
+[direct GIF file](assets/evidence/random_policy_demo.gif) to view the live playback.
+
 ```bash
 uv run robot-vacuum record-demo --max-steps 150 --seed 42 --frame-stride 3
 ```
@@ -45,7 +48,7 @@ honestly labelled evidence below.
 | **Project planning** | Requirements, phased implementation, acceptance criteria, risks, and tracked work | [PRD](docs/PRD.md), [plan](docs/PLAN.md), [TODO](docs/TODO.md) |
 | **Code documentation** | Typed package boundaries, design-focused docstrings, setup and operation guides | [DDPG PRD](docs/PRD_ddpg_algorithm.md), [simulator PRD](docs/PRD_simulator.md), [documentation index](#documentation-index) |
 | **Testing and quality** | 21 tests, 89.17% branch-aware coverage, linting, edge cases, and CI enforcement | [tests](tests), [quality workflow](.github/workflows/quality.yml), [quality policy](docs/QUALITY_STANDARDS.md) |
-| **UI and user experience** | Live animation, local GUI, controls, status panel, artifact export | [GUI guide](docs/GUI_GUIDE.md), [map view](assets/evidence/gui_map_view.png), [full GUI layout](assets/evidence/gui_full_window.png) |
+| **UI and user experience** | Live animation, local GUI, controls, status panel, artifact export | [live GIF](assets/evidence/random_policy_demo.gif), [GUI guide](docs/GUI_GUIDE.md), [map view](assets/evidence/gui_map_view.png), [full GUI layout](assets/evidence/gui_full_window.png) |
 | **Configuration and security** | Locked dependencies, validated JSON configuration, no required secrets, generic personal-document exclusions | [configuration](#configuration-and-portability), [privacy/security policy](docs/PRIVACY_SECURITY.md) |
 | **Research and analysis** | Explicit questions, hypotheses, observations, conclusions, and next experiment matrix | [experiment log](docs/EXPERIMENTS.md), [recorded metrics](assets/evidence/smoke_training_metrics.json) |
 | **Version management** | Git milestones, PR-based delivery, and visible AI-assisted decision history | [prompt and decision log](docs/PROMPT_LOG.md), [final audit](docs/FINAL_AUDIT.md) |
